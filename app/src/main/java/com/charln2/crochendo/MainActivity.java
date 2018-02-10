@@ -6,12 +6,13 @@ import android.widget.TextView;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String placeholderWebsite = "http://www.fiberfluxblog.com/2012/09/free-crochet-patternpavement-infinity.html";
+    private static final String placeholderWebsite = "https://hooked-on-crafting.com/2013/09/10/bellflower-infinity-scarf-free-pattern/";
     TextView result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +31,14 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Document doc = Jsoup.connect(url).get();
                     String title = doc.title();
-                    Elements paragraphs = doc.select("p");
+                    Elements elements = doc.select("p");
 
                     sb.append(title).append('\n');
+                    for (Element e : elements) {
+                        sb.append(e.text()).append('\n');
+
+                    }
+
                 } catch (IOException e) {
                     e.printStackTrace();
                     sb.append("Error: ").append(e.getMessage()).append('\n');
