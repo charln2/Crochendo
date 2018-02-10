@@ -1,4 +1,4 @@
-package com.charln2.crochet;
+package com.charln2.crochendo;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

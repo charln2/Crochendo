@@ -1,4 +1,4 @@
-package com.charln2.crochet;
+package com.charln2.crochendo;
 
 import org.junit.Test;
 
