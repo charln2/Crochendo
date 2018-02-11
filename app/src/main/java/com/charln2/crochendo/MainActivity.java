@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     Document doc = Jsoup.connect(url).get();
                     String title = doc.title();
-                    Elements elements = doc.select("p");
+                    Elements elements = doc.select("div:has(p:contains(sl st)) > p");
 
                     sb.append(title).append('\n');
                     for (Element e : elements) {
