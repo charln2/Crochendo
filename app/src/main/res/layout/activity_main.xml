@@ -18,30 +18,38 @@
 
         <ImageView
             android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_height="30dp"
             android:background="@drawable/chain" />
 
         <ImageView
             android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_height="30dp"
             android:background="@drawable/chain" />
         <ImageView
             android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/chain" />
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:background="@drawable/chain" />
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_height="30dp"
             android:background="@drawable/chain" />
 
         <ImageView
             android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_height="30dp"
+            android:background="@drawable/chain" />
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:background="@drawable/chain" />
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:background="@drawable/chain" />
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="30dp"
+            android:background="@drawable/chain" />
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="30dp"
             android:background="@drawable/chain" />
     </LinearLayout>
 
