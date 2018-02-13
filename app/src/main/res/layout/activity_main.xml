@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.charln2.crochendo.MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/linearLayout"
         android:gravity="center"
         android:layout_width="match_parent"
@@ -17,41 +17,25 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
+            android:id="@+id/dc1"
+            android:background="@drawable/double_crochet"
+            android:layout_width="45dp"
+            android:layout_height="60dp" />
+        <ImageView
+            android:id="@+id/c1"
             android:layout_width="45dp"
             android:layout_height="30dp"
+            android:layout_below="@id/dc1"
             android:background="@drawable/chain" />
 
         <ImageView
+            android:id="@+id/ch2"
+            android:layout_toRightOf="@id/c1"
+            android:layout_below="@id/dc1"
             android:layout_width="45dp"
             android:layout_height="30dp"
             android:background="@drawable/chain" />
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:background="@drawable/chain" />
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:background="@drawable/chain" />
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:background="@drawable/chain" />
-
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:background="@drawable/chain" />
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:background="@drawable/chain" />
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="30dp"
-            android:background="@drawable/chain" />
-    </LinearLayout>
+    </RelativeLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"
