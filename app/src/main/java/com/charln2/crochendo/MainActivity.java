@@ -2,6 +2,7 @@ package com.charln2.crochendo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.jsoup.Jsoup;
@@ -13,6 +14,7 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private static final String placeholderWebsite = "https://hooked-on-crafting.com/2013/09/10/bellflower-infinity-scarf-free-pattern/";
+    private static final String TAG = "MainActivity";
     TextView result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         result.setText(sb.toString());
+                        Log.i(TAG, sb.toString());
                     }
                 });
             }
