@@ -1,15 +1,15 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="400dp"
-    android:width="300dp"
-    android:viewportHeight="300"
-    android:viewportWidth="400">
+    android:height="60dp"
+    android:width="45dp"
+    android:viewportHeight="60"
+    android:viewportWidth="45">
 
     <path
         android:name="double_crochet"
-        android:pathData="M5,25 L395,25
-                          M200,25 L200,400
-                          M100,125 l200,50"
-        android:strokeWidth="50"
+        android:pathData="M5,4 L40,4
+                          M,22.5,4 L22.5,60
+                          M12,22 l20,15"
+        android:strokeWidth="5"
         android:strokeColor="#009688" />
     <!--android:fillColor="@color/colorAccent"-->
 </vector>
