@@ -16,6 +16,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,8 +29,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         result = (TextView) findViewById(R.id.result_text_view);
-        fetchWebsite(placeholderWebsite);
+        ArrayList<String> rawInstructions = fetchWebsite(placeholderWebsite);
 
+
+
+    }
+
+    // testing attaching and positioning stitch drawables into views on the screen.
+    void experiment() {
         RelativeLayout rl = (RelativeLayout) findViewById(R.id.rel);
         View dc1 = getLayoutInflater().inflate(R.layout.dc, null);
         View dc2 = getLayoutInflater().inflate(R.layout.dc, null);
@@ -56,11 +63,10 @@ public class MainActivity extends AppCompatActivity {
 //        shell.setPivotX(0);
 //        Toast.makeText(MainActivity.this, String.format("(%f, %f, %d)", shell.getPivotX(), shell.getPivotY(), shell.getWidth()), Toast.LENGTH_SHORT).show();
 //        shell.setRotation(70);
-
     }
 
-    void fetchWebsite(final String url) {
-        final StringBuilder sb = new StringBuilder();
+    ArrayList<String> fetchWebsite(final String url) {
+        final ArrayList<String> list = new ArrayList<>();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -69,25 +75,32 @@ public class MainActivity extends AppCompatActivity {
                     String title = doc.title();
                     Elements elements = doc.select("div:has(p:contains(sl st)) > p");
 
-                    sb.append(title).append('\n');
+                    list.add(title);
                     for (Element e : elements) {
-                        sb.append(e.text()).append('\n');
-
+                        list.add(e.text());
                     }
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    sb.append("Error: ").append(e.getMessage()).append('\n');
+                    list.add(e.getMessage());
+//                    sb.append("Error: ").append(e.getMessage()).append('\n');
                 }
 
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        StringBuilder sb = new StringBuilder();
+                        for(String s : list) {
+                            sb.append(s).append("\n---\n");
+                        }
                         result.setText(sb.toString());
-                        Log.i(TAG, sb.toString());
+                        for(String s : list) {
+                            Log.i(TAG, s);
+                        }
                     }
                 });
             }
         }).start();
+        return list;
     }
 }
