@@ -5,6 +5,9 @@ import android.util.Log;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
@@ -14,19 +17,14 @@ import static android.content.ContentValues.TAG;
  */
 
 public class Pattern {
-    private class Stitch {
-        String name;
-        Stitch prev, next;
-        ArrayList<Stitch> anchors;
-        String note;
-        private Stitch() {}
-        public Stitch(String name) {
-            this.name = name;
-        }
-    }
+    HashSet<String> stitches = new HashSet<String>(){{
+        add("ch");
+    }};
 
     Stitch head, tail;
     ArrayList<Stitch> rows;
+    private Queue<Instruction> q = new LinkedList<>();
+    // make a queue
 
     public Pattern(FileInputStream rawInstructions) {
         head = tail = new Stitch("sl");
@@ -39,43 +37,61 @@ public class Pattern {
 //            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 //            String blah = br.readLine();
         Scanner sc = new Scanner(new InputStreamReader(fis));
-        for (String line = sc.nextLine(); sc.hasNextLine() && sc.nextLine().toLowerCase().startsWith("directions"); ) {
-
-        }
+        String line = "";
         while (sc.hasNextLine()) {
-            String line = sc.nextLine().toLowerCase();
+            // ch 32,
+            line = sc.nextLine().toLowerCase();
             Log.d(TAG, "parsePattern: " + line);
-            if (line.startsWith("directions")) {
+            if (line.startsWith("ch 32")) {
                 break;
             }
         }
 
         // parse first direction
-        String line = sc.nextLine();
-        buildPattern(line);
-
+//        String line = sc.nextLine();
+        parseLine(line);
+        print();
     }
 
-    void buildPattern(String line) {
+    void parseLine(String line) {
         Scanner sc = new Scanner(line);
-        StringBuilder stitch = new StringBuilder();
-        int count;
+        sc.useDelimiter("[,:;.]");
+        //<stitch, times, in x, note>
+
         while (sc.hasNext()) {
-            if (sc.hasNextInt()) {
+            q.add(InstructionFactory.getInstruction(sc.next()));
 
-            } else if (sc.hasNext("in")) {
-
-            } else {
-                
-            }
-            stitch.append(sc.next());
+//            switch (abbr) {
+//                case "ch":
+//                    InstructionFactory.getInstruction()
+//                default:
+//                    Log.e(TAG, "parseLine: Stitch not recognized", new InstantiationException() );
+//            }
+//            // make Instruction, add to queue
+//            if (sc.hasNextInt()) {
+//
+//            } else if (sc.hasNext("in")) {
+//
+//            } else {
+//
+//            }
         }
     }
-    void append(String st) {
-
+    void append(Stitch st) {
+        if (head == null) {
+            head = tail = new Stitch("sl");
+        }
+        tail.next = st;
+        st.prev = tail;
+        tail = tail.next;
     }
 
-    void append(String st, Stitch x) {
-
+    void print() {
+        StringBuilder out = new StringBuilder();
+        Stitch cur = head;
+        while (cur != null) {
+            out.append(cur.name).append(" | ");
+        }
+        Log.d(TAG, "print: out\n" + out.toString());
     }
 }
