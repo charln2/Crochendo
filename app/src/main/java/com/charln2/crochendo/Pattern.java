@@ -1,14 +1,8 @@
 package com.charln2.crochendo;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -35,33 +29,48 @@ public class Pattern {
     ArrayList<Stitch> rows;
 
     public Pattern(FileInputStream rawInstructions) {
+        head = tail = new Stitch("sl");
         parsePattern(rawInstructions);
     }
 
     void parsePattern(FileInputStream fis) {
-        try {
 //            FileInputStream fis = cxt.openFileInput("patterntest");
 //            Scanner sc = new Scanner(fin);
-            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
-            String blah = br.readLine();
-            Log.d(TAG, "parsePatternasdf: " + blah);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+//            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+//            String blah = br.readLine();
+        Scanner sc = new Scanner(new InputStreamReader(fis));
+        for (String line = sc.nextLine(); sc.hasNextLine() && sc.nextLine().toLowerCase().startsWith("directions"); ) {
+
         }
-//        int i = 0;
-//        while (!rawInstructions.get(i).toLowerCase().startsWith("direction")) {
-//            i++;
-//        }
-//        Log.d(TAG, "parsePattern: " + rawInstructions.get(i));
-//
-//        i++;
-//
-//        String line = rawInstructions.get(i);
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine().toLowerCase();
+            Log.d(TAG, "parsePattern: " + line);
+            if (line.startsWith("directions")) {
+                break;
+            }
+        }
+
+        // parse first direction
+        String line = sc.nextLine();
+        buildPattern(line);
 
     }
 
+    void buildPattern(String line) {
+        Scanner sc = new Scanner(line);
+        StringBuilder stitch = new StringBuilder();
+        int count;
+        while (sc.hasNext()) {
+            if (sc.hasNextInt()) {
+
+            } else if (sc.hasNext("in")) {
+
+            } else {
+                
+            }
+            stitch.append(sc.next());
+        }
+    }
     void append(String st) {
 
     }

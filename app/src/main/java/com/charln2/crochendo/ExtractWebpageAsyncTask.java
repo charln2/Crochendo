@@ -1,11 +1,8 @@
 package com.charln2.crochendo;
 
-import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.view.View;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -44,7 +41,7 @@ public class ExtractWebpageAsyncTask extends AsyncTask<String, Void, ArrayList<S
             String title = doc.title();
             Elements elements = doc.select("div:has(p:contains(sl st)) > p");
 
-            File f = getTempFile(cxt, MainActivity.placeholderWebsite);
+//            File f = getTempFile(cxt, MainActivity.placeholderWebsite);
             FileOutputStream fOut = cxt.openFileOutput("patterntest",Context.MODE_PRIVATE);
             list.add(title);
             for (Element e : elements) {
