@@ -5,6 +5,7 @@ import android.util.Log;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 import static android.content.ContentValues.TAG;
@@ -39,19 +40,23 @@ public class Pattern {
 //            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
 //            String blah = br.readLine();
         Scanner sc = new Scanner(new InputStreamReader(fis));
-        for (String line = sc.nextLine(); sc.hasNextLine() && sc.nextLine().toLowerCase().startsWith("directions"); ) {
-
-        }
         while (sc.hasNextLine()) {
             String line = sc.nextLine().toLowerCase();
-            Log.d(TAG, "parsePattern: " + line);
-            if (line.startsWith("directions")) {
+            if (line.startsWith("row 3")) {
                 break;
             }
         }
 
         // parse first direction
         String line = sc.nextLine();
+        line = sc.nextLine();
+
+        String[] stitches = line.split(",|:|;");
+        for (String s : stitches) {
+            Log.d(TAG, "parsePattern: " + s);
+
+        }
+
         buildPattern(line);
 
     }
