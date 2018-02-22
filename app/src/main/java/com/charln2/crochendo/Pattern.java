@@ -1,6 +1,11 @@
 package com.charln2.crochendo;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by charl on 2/21/2018.
@@ -17,7 +22,15 @@ public class Pattern {
     }
 
     void parsePattern(ArrayList<String> rawInstructions) {
-
+        int i = 0;
+        if (rawInstructions.size() == 0) {
+            Log.d(TAG, "parsePattern: ! rawInstructions empty!");
+            return;
+        }
+        while (!rawInstructions.get(i).toLowerCase().startsWith("direction")) {
+            i++;
+        }
+        Log.d(TAG, "parsePattern: " + rawInstructions.get(i));
     }
 
     void append(String st) {
