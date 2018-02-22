@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
         result = (TextView) findViewById(R.id.result_text_view);
         ArrayList<String> rawInstructions = fetchWebsite(placeholderWebsite);
 
-
-
+        Pattern p = new Pattern(rawInstructions);
     }
 
     // testing attaching and positioning stitch drawables into views on the screen.

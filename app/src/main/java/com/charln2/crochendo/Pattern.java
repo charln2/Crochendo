@@ -10,11 +10,13 @@ public class Pattern {
     Stitch head, tail;
     ArrayList<Stitch> rows;
 
-    public Pattern() {
+    private Pattern(){}
 
+    public Pattern(ArrayList<String> rawInstructions) {
+        parsePattern(rawInstructions);
     }
 
-    void parsePattern(String s) {
+    void parsePattern(ArrayList<String> rawInstructions) {
 
     }
 
