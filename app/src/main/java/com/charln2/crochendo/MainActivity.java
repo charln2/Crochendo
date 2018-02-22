@@ -13,11 +13,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements ExtractWebpageAsyncTask.AsyncResponse{
-    private static final String placeholderWebsite = "https://hooked-on-crafting.com/2013/09/10/bellflower-infinity-scarf-free-pattern/";
+    public static final String placeholderWebsite = "https://hooked-on-crafting.com/2013/09/10/bellflower-infinity-scarf-free-pattern/";
     private static final String TAG = "MainActivity";
     TextView tvResult;
     @Override
@@ -26,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements ExtractWebpageAsy
         setContentView(R.layout.activity_main);
 
         tvResult = (TextView) findViewById(R.id.result_text_view);
-        ExtractWebpageAsyncTask task = new ExtractWebpageAsyncTask(this);
+        ExtractWebpageAsyncTask task = new ExtractWebpageAsyncTask(this, getApplicationContext());
         task.execute(placeholderWebsite);
     }
 
@@ -38,7 +41,16 @@ public class MainActivity extends AppCompatActivity implements ExtractWebpageAsy
             sb.append(s).append("\n---\n");
         }
         tvResult.setText(sb.toString());
+//        File f = new File(getCacheDir(), "patterntest");
+        try {
+            FileInputStream fis = openFileInput("patterntest");
+            Pattern p = new Pattern(fis);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        deleteFile("patterntest");
+    }
+    void flush() {
 
-        Pattern p = new Pattern(list);
     }
 }
