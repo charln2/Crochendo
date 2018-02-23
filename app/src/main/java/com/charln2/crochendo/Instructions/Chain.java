@@ -1,4 +1,7 @@
-package com.charln2.crochendo;
+package com.charln2.crochendo.Instructions;
+
+import com.charln2.crochendo.Pattern;
+import com.charln2.crochendo.Stitch;
 
 import java.util.Scanner;
 
@@ -24,7 +27,7 @@ public class Chain extends Instruction {
     }
 
     @Override
-    void execute(Pattern p) {
+    public void execute(Pattern p) {
         for (int i = 0; i < times; i++) {
             Stitch s = new Stitch("ch", note);
 //            x.addAnchor(s);

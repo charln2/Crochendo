@@ -2,6 +2,8 @@ package com.charln2.crochendo;
 
 import android.util.Log;
 
+import com.charln2.crochendo.Instructions.Instruction;
+
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -57,7 +59,7 @@ public class Pattern {
 //        String line = sc.nextLine();
         parseLine(line);
         executeInstructions();
-        print();
+        Log.d(TAG, "parsePattern: " + this.toString());
     }
 
     void executeInstructions() {
@@ -76,24 +78,10 @@ public class Pattern {
             if (inst != null) {
                 q.add(inst);
             }
-
-//            switch (abbr) {
-//                case "ch":
-//                    InstructionFactory.getInstruction()
-//                default:
-//                    Log.e(TAG, "parseLine: Stitch not recognized", new InstantiationException() );
-//            }
-//            // make Instruction, add to queue
-//            if (sc.hasNextInt()) {
-//
-//            } else if (sc.hasNext("in")) {
-//
-//            } else {
-//
-//            }
         }
     }
-    void append(Stitch st) {
+
+    public void append(Stitch st) {
         if (head == null) {
             head = tail = x = new Stitch("sl st");
         }
@@ -102,14 +90,15 @@ public class Pattern {
         tail = tail.next;
     }
 
-    String print() {
+    @Override
+    public String toString() {
         StringBuilder out = new StringBuilder();
         Stitch cur = head;
         while (cur != null) {
-            out.append(cur.name).append(" | ");
+            out.append(String.format("%-5s|", cur));
             cur = cur.next;
         }
-//        Log.d(TAG, "print pattern: \n" + out.toString());
+        out.setLength(out.length()-1);
         return out.toString();
     }
 }

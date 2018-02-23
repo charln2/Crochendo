@@ -12,13 +12,11 @@ public class InstructionParsingUnitTest {
     }
 
     @Test
-    public void ch32_isCorrect() throws Exception {
+    public void print_ch32() throws Exception {
         Pattern p = new Pattern();
         p.parseLine("ch 5");
-
         p.executeInstructions();
-        String output = p.print();
-        String expected = "sl st | ch | ch | ch | ch | ch | ";
-        assertEquals(output, expected);
+
+        assertEquals(p.toString(), "sl st|ch   |ch   |ch   |ch   |ch   ");
     }
 }

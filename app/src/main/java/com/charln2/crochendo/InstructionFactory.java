@@ -2,6 +2,9 @@ package com.charln2.crochendo;
 
 import android.util.Log;
 
+import com.charln2.crochendo.Instructions.Chain;
+import com.charln2.crochendo.Instructions.Instruction;
+
 import java.util.Scanner;
 
 

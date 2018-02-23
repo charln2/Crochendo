@@ -1,4 +1,6 @@
-package com.charln2.crochendo;
+package com.charln2.crochendo.Instructions;
+
+import com.charln2.crochendo.Pattern;
 
 /**
  * Created by Ripley on 2/22/2018.
@@ -11,5 +13,5 @@ public abstract class Instruction {
     protected String note = "";
 
     abstract void parse(String rawInstruction);
-    abstract void execute(Pattern p);
+    public abstract void execute(Pattern p);
 }

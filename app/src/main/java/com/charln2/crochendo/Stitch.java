@@ -27,4 +27,9 @@ public class Stitch {
         }
         anchors.add(a);
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
