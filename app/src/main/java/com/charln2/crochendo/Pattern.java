@@ -68,7 +68,7 @@ public class Pattern {
 
     void parseLine(String line) {
         Scanner sc = new Scanner(line);
-        sc.useDelimiter("[,:;.]");
+        sc.useDelimiter("[,:;.—]");
         //<stitch, times, in x, note>
 
         while (sc.hasNext()) {
