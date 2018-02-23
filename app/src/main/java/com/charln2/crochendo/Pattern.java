@@ -19,12 +19,16 @@ import static android.content.ContentValues.TAG;
  */
 
 public class Pattern {
-    HashSet<String> stitches = new HashSet<String>(){{
+    // kinda cludgey. Find a better way but good makeshift design choice for now
+    public static final HashSet<String> stitches = new HashSet<String>(){{
         add("ch");
+        add("dc");
+        add("sl st");
     }};
-
     Stitch head, tail, x;
     ArrayList<Stitch> rows;
+    private static boolean newRow = false;
+    private boolean rsIsOdd = true;
     private Queue<Instruction> q = new LinkedList<>();
     // make a queue
 
@@ -32,11 +36,17 @@ public class Pattern {
     public Pattern() {
         if (head == null) {
             head = tail = x = new Stitch("sl st");
+            rows = new ArrayList<>();
+            rows.add(x);
         }
     }
     public Pattern(FileInputStream rawInstructions) {
         this();
         parsePattern(rawInstructions);
+    }
+
+    public boolean isNewRow() {
+        return newRow;
     }
 
     void parsePattern(FileInputStream fis) {
@@ -84,10 +94,20 @@ public class Pattern {
     public void append(Stitch st) {
         if (head == null) {
             head = tail = x = new Stitch("sl st");
+            rows.add(x);
         }
         tail.next = st;
         st.prev = tail;
         tail = tail.next;
+
+        if (newRow) {
+            rows.add(st);
+            newRow = false;
+        }
+    }
+
+    public void setNewRow(boolean newRow) {
+        this.newRow = newRow;
     }
 
     @Override
@@ -100,5 +120,15 @@ public class Pattern {
         }
         out.setLength(out.length()-1);
         return out.toString();
+    }
+
+    // todo: breaks factory pattern. may change later.
+    public void shiftNewestRowToNext(String s) {
+        Stitch cur = x.next;
+        while (!cur.equals(s)) {
+            cur = cur.next;
+        }
+        rows.remove(rows.size()-1);
+        rows.add(cur);
     }
 }

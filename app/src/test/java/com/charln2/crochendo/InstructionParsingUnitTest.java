@@ -19,4 +19,15 @@ public class InstructionParsingUnitTest {
 
         assertEquals(p.toString(), "sl st|ch   |ch   |ch   |ch   |ch   ");
     }
+
+    @Test
+    public void print_row() throws Exception {
+        Pattern p = new Pattern();
+        p.parseLine("ch 5");
+        assertFalse(p.isNewRow());
+
+        p.parseLine("Row 1 (RS):");
+        p.executeInstructions();
+        assertTrue(p.isNewRow());
+    }
 }

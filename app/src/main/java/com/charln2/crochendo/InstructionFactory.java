@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.charln2.crochendo.Instructions.Chain;
 import com.charln2.crochendo.Instructions.Instruction;
+import com.charln2.crochendo.Instructions.Row;
 
 import java.util.Scanner;
 
@@ -23,11 +24,14 @@ public class InstructionFactory {
         while (sc.hasNext() && !sc.hasNextInt()) {
             abbrev.append(sc.next());
         }
-        switch (abbrev.toString()) {
+        switch (abbrev.toString().toLowerCase()) {
             case "ch":
                 return new Chain(rawInstruction);
+            case "row":
+                return new Row(rawInstruction);
+
             default:
-                Log.e(TAG, "getInstruction: ", new InstantiationException());
+                Log.e(TAG, "getInstruction: Problems instantiating instruction in factory", new InstantiationException());
         }
         return null;
     }
