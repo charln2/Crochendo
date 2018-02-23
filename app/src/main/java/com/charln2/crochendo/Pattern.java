@@ -26,8 +26,14 @@ public class Pattern {
     private Queue<Instruction> q = new LinkedList<>();
     // make a queue
 
+    // default constructor for testing purposes
+    public Pattern() {
+        if (head == null) {
+            head = tail = x = new Stitch("sl st");
+        }
+    }
     public Pattern(FileInputStream rawInstructions) {
-        head = tail = x = new Stitch("sl");
+        this();
         parsePattern(rawInstructions);
     }
 
@@ -50,10 +56,14 @@ public class Pattern {
         // parse first direction
 //        String line = sc.nextLine();
         parseLine(line);
+        executeInstructions();
+        print();
+    }
+
+    void executeInstructions() {
         while (!q.isEmpty()) {
             q.poll().execute(this, x);
         }
-        print();
     }
 
     void parseLine(String line) {
@@ -62,7 +72,10 @@ public class Pattern {
         //<stitch, times, in x, note>
 
         while (sc.hasNext()) {
-            q.add(InstructionFactory.getInstruction(sc.next()));
+            Instruction inst = InstructionFactory.getInstruction(sc.next());
+            if (inst != null) {
+                q.add(inst);
+            }
 
 //            switch (abbr) {
 //                case "ch":
@@ -82,20 +95,21 @@ public class Pattern {
     }
     void append(Stitch st) {
         if (head == null) {
-            head = tail = new Stitch("sl");
+            head = tail = x = new Stitch("sl st");
         }
         tail.next = st;
         st.prev = tail;
         tail = tail.next;
     }
 
-    void print() {
+    String print() {
         StringBuilder out = new StringBuilder();
         Stitch cur = head;
         while (cur != null) {
             out.append(cur.name).append(" | ");
             cur = cur.next;
         }
-        Log.d(TAG, "print: out\n" + out.toString());
+//        Log.d(TAG, "print pattern: \n" + out.toString());
+        return out.toString();
     }
 }
