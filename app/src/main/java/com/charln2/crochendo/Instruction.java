@@ -11,5 +11,5 @@ public abstract class Instruction {
     protected String note = "";
 
     abstract void parse(String rawInstruction);
-    abstract void execute(Pattern p, Stitch x);
+    abstract void execute(Pattern p);
 }

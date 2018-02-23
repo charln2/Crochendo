@@ -24,10 +24,10 @@ public class Chain extends Instruction {
     }
 
     @Override
-    void execute(Pattern p, Stitch x) {
+    void execute(Pattern p) {
         for (int i = 0; i < times; i++) {
             Stitch s = new Stitch("ch", note);
-            x.addAnchor(s);
+//            x.addAnchor(s);
             p.append(s);
         }
     }

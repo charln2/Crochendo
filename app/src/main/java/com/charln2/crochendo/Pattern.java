@@ -62,7 +62,7 @@ public class Pattern {
 
     void executeInstructions() {
         while (!q.isEmpty()) {
-            q.poll().execute(this, x);
+            q.poll().execute(this);
         }
     }
 
