@@ -91,6 +91,7 @@ public class Pattern {
         Stitch cur = head;
         while (cur != null) {
             out.append(cur.name).append(" | ");
+            cur = cur.next;
         }
         Log.d(TAG, "print: out\n" + out.toString());
     }
