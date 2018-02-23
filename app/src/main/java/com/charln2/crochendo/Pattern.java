@@ -21,7 +21,7 @@ public class Pattern {
         add("ch");
     }};
 
-    Stitch head, tail;
+    Stitch head, tail, x;
     ArrayList<Stitch> rows;
     private Queue<Instruction> q = new LinkedList<>();
     // make a queue
@@ -50,6 +50,9 @@ public class Pattern {
         // parse first direction
 //        String line = sc.nextLine();
         parseLine(line);
+        while (!q.isEmpty()) {
+            q.poll().execute(this, x);
+        }
         print();
     }
 
