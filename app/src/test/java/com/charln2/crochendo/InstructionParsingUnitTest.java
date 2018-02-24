@@ -21,27 +21,44 @@ public class InstructionParsingUnitTest {
     @Test(timeout=1000) // in ms
     //(expected = IllegalStateException.class)
     @Ignore ("Excluding example test given for reference. Just seeing how it works.")
-    public void addition_isCorrect_Example() throws Exception {
+    public void addition_isCorrect_example() throws Exception {
         assertEquals(4, 2 + 2);
         assertEquals(2, 1+1);
     }
 
     @Test
     public void print_ch32() throws Exception {
-        p.parseLine("ch 5");
+        p.parseLine("ch 7");
         p.executeInstructions();
 
-        assertEquals("sl st|ch   |ch   |ch   |ch   |ch   ", p.toString());
+        assertEquals("sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   ", p.toString());
     }
-
+    @Test(expected = InstantiationException.class)
+    public void nonexistent_instruction() throws Exception {
+        p.parseLine("zq");
+    }
     @Test
-    public void print_row() throws Exception {
-        p.parseLine("ch 5");
+    public void row() throws Exception {
+        p.parseLine("ch 7");
         assertFalse(p.isNewRow());
 
         p.parseLine("Row 1 (RS):");
         p.executeInstructions();
         assertTrue(p.isNewRow());
+
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.executeInstructions();
+        assertFalse(p.isNewRow());
+    }
+
+    @Test
+    public void double_crochet() throws Exception {
+        p.parseLine("ch 7");
+        p.parseLine("Row 1 (RS):");
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.executeInstructions();
+        assertEquals("sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   |dc   ", p.toString());
+        //todo: x location
     }
 
     @Test

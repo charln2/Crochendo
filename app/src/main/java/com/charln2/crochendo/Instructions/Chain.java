@@ -1,7 +1,6 @@
 package com.charln2.crochendo.Instructions;
 
 import com.charln2.crochendo.Pattern;
-import com.charln2.crochendo.Stitch;
 
 import java.util.Scanner;
 
@@ -12,7 +11,6 @@ import java.util.Scanner;
 public class Chain extends StitchInstruction {
     public Chain(String rawInstruction) {
         abbr = "ch";
-        moveX = 0;
         parse(rawInstruction);
     }
     @Override
@@ -28,10 +26,6 @@ public class Chain extends StitchInstruction {
 
     @Override
     public void execute(Pattern p) {
-        for (int i = 0; i < times; i++) {
-            Stitch s = new Stitch("ch", note);
-//            x.addAnchor(s);
-            p.append(s);
-        }
+        attatch(p, false);
     }
 }

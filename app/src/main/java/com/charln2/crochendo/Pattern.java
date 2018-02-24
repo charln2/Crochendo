@@ -2,7 +2,7 @@ package com.charln2.crochendo;
 
 import android.util.Log;
 
-import com.charln2.crochendo.Instructions.StitchInstruction;
+import com.charln2.crochendo.Instructions.Instruction;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -22,9 +22,9 @@ public class Pattern {
 
     private Stitch head, tail, x;
     private ArrayList<Stitch> rows;
-    private static boolean newRow = false;
+    private static boolean newRow = false; // ugly workaround for lack of C's "pointer-reference"
     private boolean rsIsOdd = true;
-    private Queue<StitchInstruction> q = new LinkedList<>();
+    private Queue<Instruction> q = new LinkedList<>();
     HashMap<String, Stitch> hold = new HashMap<>();
 
     // default constructor for testing purposes
@@ -112,8 +112,20 @@ public class Pattern {
         }
     }
 
+    public void advanceXToNext(String stitchName, int num) {
+        x = x.prev;
+        while (num > 0) {
+            if (x.name.equalsIgnoreCase(stitchName)) {
+                num--;
+            }
+        }
+    }
+    public void advanceXToNext(String stitchName) {
+        advanceXToNext(stitchName, 1);
+    }
     public void setNewRow(boolean newRow) {
         this.newRow = newRow;
+        x = tail;
     }
 
     @Override
@@ -136,5 +148,9 @@ public class Pattern {
         }
         rows.remove(rows.size()-1);
         rows.add(cur);
+    }
+
+    public void addAnchor(Stitch s) {
+        x.addAnchor(s);
     }
 }
