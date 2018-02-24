@@ -1,5 +1,7 @@
 package com.charln2.crochendo;
 
+import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Scanner;
@@ -9,15 +11,23 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class InstructionParsingUnitTest {
-    @Test
-    public void addition_isCorrect() throws Exception {
+    private Pattern p;
+
+    @Before
+    public void setUp() throws Exception {
+        p = new Pattern();
+    }
+
+    @Test(timeout=1000) // in ms
+    //(expected = IllegalStateException.class)
+    @Ignore ("Excluding example test given for reference. Just seeing how it works.")
+    public void addition_isCorrect_Example() throws Exception {
         assertEquals(4, 2 + 2);
         assertEquals(2, 1+1);
     }
 
     @Test
     public void print_ch32() throws Exception {
-        Pattern p = new Pattern();
         p.parseLine("ch 5");
         p.executeInstructions();
 
@@ -26,7 +36,6 @@ public class InstructionParsingUnitTest {
 
     @Test
     public void print_row() throws Exception {
-        Pattern p = new Pattern();
         p.parseLine("ch 5");
         assertFalse(p.isNewRow());
 

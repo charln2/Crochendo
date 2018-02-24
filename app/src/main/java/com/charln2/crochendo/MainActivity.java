@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements ExtractWebpageAsy
             Pattern p = new Pattern(fis);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
         }
 //        deleteFile("patterntest");
     }

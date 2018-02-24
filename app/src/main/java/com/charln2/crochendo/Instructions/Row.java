@@ -2,13 +2,11 @@ package com.charln2.crochendo.Instructions;
 
 import com.charln2.crochendo.Pattern;
 
-import java.util.Scanner;
-
 /**
  * Created by charl on 2/23/2018.
  */
 
-public class Row extends Instruction {
+public class Row extends StitchInstruction {
     public Row(String rawInstruction) {
         abbr = "row";
         note = rawInstruction;
