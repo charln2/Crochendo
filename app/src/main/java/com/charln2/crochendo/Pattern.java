@@ -3,6 +3,7 @@ package com.charln2.crochendo;
 import android.util.Log;
 
 import com.charln2.crochendo.Instructions.Instruction;
+import com.charln2.crochendo.Instructions.InstructionFactory;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
@@ -21,27 +22,22 @@ import static android.content.ContentValues.TAG;
 public class Pattern {
 
     private Stitch head, tail, x;
-    private ArrayList<Stitch> rows;
-    private static boolean newRow = false; // ugly workaround for lack of C's "pointer-reference"
+    ArrayList<Stitch> rowEnds;
     private boolean rsIsOdd = true;
     private Queue<Instruction> q = new LinkedList<>();
     HashMap<String, Stitch> hold = new HashMap<>();
 
     // default constructor for testing purposes
     public Pattern() {
+        rowEnds = new ArrayList<>();
         if (head == null) {
-            head = tail = x = new Stitch("sl st");
-            rows = new ArrayList<>();
-            rows.add(x);
+            head = tail = new Stitch("sl st");
+//            rowEnds.add(x);
         }
     }
     public Pattern(FileInputStream rawInstructions) throws InstantiationException {
         this();
         parsePattern(rawInstructions);
-    }
-
-    public boolean isNewRow() {
-        return newRow;
     }
 
     void parsePattern(FileInputStream fis) throws InstantiationException {
@@ -87,6 +83,9 @@ public class Pattern {
                 rawInstruction = rawInstruction.substring(i);
             }
             q.add(InstructionFactory.getInstruction(rawInstruction)); // "(" handled too!
+            if (rawInstruction.contains("(beginning ch counts as)")) {
+                rowEnds.add(x);
+            }
             // "(" SHELL:
             // todo: create shell class
             // SHELL: if startsWith (, group, skip, continue to next ,.
@@ -100,31 +99,32 @@ public class Pattern {
     public void append(Stitch st) {
         if (head == null) {
             head = tail = x = new Stitch("sl st");
-            rows.add(x);
+            rowEnds.add(x);
         }
         tail.next = st;
         st.prev = tail;
         tail = tail.next;
-
-        if (newRow) {
-            rows.add(st);
-            newRow = false;
-        }
     }
 
-    public void advanceXToNext(String stitchName, int num) {
-        x = x.prev;
-        while (num > 0) {
-            if (x.name.equalsIgnoreCase(stitchName)) {
-                num--;
+    public void moveX(int num) {
+        moveX(num, "");
+    }
+    public void moveX(String anchorStitch) {
+        moveX(1, anchorStitch);
+    }
+    public void moveX(int ith, String anchorTarget) {
+        while (ith > 0) {
+            do {
+                x = x.prev;
+            } while(x.name.equals("sk"));
+            if (anchorTarget == null || x.name.equalsIgnoreCase(anchorTarget)) {
+                ith--;
             }
         }
     }
-    public void advanceXToNext(String stitchName) {
-        advanceXToNext(stitchName, 1);
-    }
-    public void setNewRow(boolean newRow) {
-        this.newRow = newRow;
+
+    public void startNewRow() {
+        rowEnds.add(tail);
         x = tail;
     }
 
@@ -141,13 +141,9 @@ public class Pattern {
     }
 
     // todo: breaks factory pattern. may change later.
-    public void shiftNewestRowToNext(String s) {
-        Stitch cur = x.next;
-        while (!cur.equals(s)) {
-            cur = cur.next;
-        }
-        rows.remove(rows.size()-1);
-        rows.add(cur);
+    public void overwritePreviousRowEnd(String s) {
+        rowEnds.remove(rowEnds.size()-1);
+        rowEnds.add(x);
     }
 
     public void addAnchor(Stitch s) {

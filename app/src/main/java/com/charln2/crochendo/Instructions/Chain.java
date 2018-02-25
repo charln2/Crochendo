@@ -1,7 +1,5 @@
 package com.charln2.crochendo.Instructions;
 
-import com.charln2.crochendo.Pattern;
-
 import java.util.Scanner;
 
 /**
@@ -22,10 +20,5 @@ public class Chain extends StitchInstruction {
         if (sc.hasNext()) {
             note = sc.nextLine();
         }
-    }
-
-    @Override
-    public void execute(Pattern p) {
-        attatch(p, false);
     }
 }

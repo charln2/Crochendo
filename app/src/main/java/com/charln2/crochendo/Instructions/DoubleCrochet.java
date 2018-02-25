@@ -1,7 +1,5 @@
 package com.charln2.crochendo.Instructions;
 
-import com.charln2.crochendo.Pattern;
-
 import java.util.Scanner;
 
 /**
@@ -16,6 +14,7 @@ public class DoubleCrochet extends StitchInstruction {
 
     @Override
     void parse(String rawInstruction) {
+        super.parse(rawInstruction);
         //"dc in 4th ch from hook (beginning ch counts as dc)"
         rawInstruction = rawInstruction.replaceAll("\\d(st|nd|rd|th)", "");
         rawInstruction = rawInstruction.replaceAll("(\\sin)?(\\snext)?", "");
@@ -26,27 +25,14 @@ public class DoubleCrochet extends StitchInstruction {
         }
         sc.skip(abbr);
         if (sc.hasNextInt()) {
-            moveX = sc.nextInt();
+            ith = sc.nextInt();
         }
         if (sc.hasNext()) {
-            skipStitch = sc.next();
+            anchorStitch = sc.next();
         }
 
         if (sc.findInLine("from hook") != null) {
-            moveX--;
+            ith--;
         }
-
-        // put (...) in note
-        String parens = sc.findInLine("\\(*\\)");
-        if (parens != null) {
-            note = parens;
-        }
-    }
-
-    @Override
-    public void execute(Pattern p) {
-        super.execute(p);
-        p.advanceXToNext(skipStitch, moveX);
-        attatch(p);
     }
 }

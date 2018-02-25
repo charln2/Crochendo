@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class InstructionParsingUnitTest {
@@ -40,15 +39,15 @@ public class InstructionParsingUnitTest {
     @Test
     public void row() throws Exception {
         p.parseLine("ch 7");
-        assertFalse(p.isNewRow());
+        assertTrue(p.rowEnds.isEmpty());
 
         p.parseLine("Row 1 (RS):");
         p.executeInstructions();
-        assertTrue(p.isNewRow());
+        assertTrue(p.rowEnds.size() == 1);
 
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
         p.executeInstructions();
-        assertFalse(p.isNewRow());
+        // todo: print by testing 0th and 1st row.
     }
 
     @Test
@@ -61,8 +60,23 @@ public class InstructionParsingUnitTest {
         //todo: x location
     }
 
+
+
     @Test
+    public void skip() throws Exception {
+        p.parseLine("ch 7");
+        p.parseLine("Row 1");
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.parseLine("sk 2 ch");
+        p.executeInstructions();
+        assertEquals("sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   |dc   |sk   |sk   ", p.toString());
+    }
+    @Test
+    @Ignore ("hold not yet implemented")
     public void hold() throws Exception {
+
+
+
 //        Scanner sc = new Scanner("*stitch with asterisk");
 //        StringBuilder sb = new StringBuilder("*stitch with asterisk");
 //        sb.replace(0,1, "");

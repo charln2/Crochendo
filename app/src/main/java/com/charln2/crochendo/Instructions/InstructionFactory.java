@@ -1,9 +1,4 @@
-package com.charln2.crochendo;
-
-import com.charln2.crochendo.Instructions.Chain;
-import com.charln2.crochendo.Instructions.DoubleCrochet;
-import com.charln2.crochendo.Instructions.Instruction;
-import com.charln2.crochendo.Instructions.Row;
+package com.charln2.crochendo.Instructions;
 
 import java.util.HashSet;
 import java.util.Scanner;
@@ -34,6 +29,8 @@ public class InstructionFactory {
                     return new Row(rawInstruction);
                 case "dc":
                     return new DoubleCrochet(rawInstruction);
+                case "sk":
+                    return new Skip(rawInstruction);
                     //todo: turn instruction
                     //todo: slip stitch instruction
 
@@ -57,6 +54,7 @@ public class InstructionFactory {
         add("dc");
         add("sl st");
         add("row");
+        add("sk");
     }};
     public static boolean isValidInstruction(String s) {
         s = s.toLowerCase().trim();

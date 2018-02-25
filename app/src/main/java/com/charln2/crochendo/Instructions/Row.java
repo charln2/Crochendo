@@ -23,6 +23,6 @@ public class Row extends Instruction {
 
     @Override
     public void execute(Pattern p) {
-        p.setNewRow(true);
+        p.startNewRow();
     }
 }

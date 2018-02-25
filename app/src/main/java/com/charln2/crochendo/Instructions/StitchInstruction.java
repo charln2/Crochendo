@@ -8,28 +8,25 @@ import com.charln2.crochendo.Stitch;
  */
 
 public abstract class StitchInstruction extends Instruction{
-    int moveX = 0;
-    String skipStitch;
     int times = 1;
+    String anchorStitch;
+    int ith = 1;
 
-   abstract void parse(String rawInstruction);
+    @Override
+    void parse(String rawInstruction) {
+        super.parse(rawInstruction);
+    }
 
     public void execute(Pattern p) {
-        // todo: "counts as" check.
-        if (note.contains("beginning ch counts as")) {
-            p.shiftNewestRowToNext("ch");
-        }
-    }
-
-    void attatch(Pattern p) {
-        attatch(p, true);
-    }
-    void attatch(Pattern p, boolean anchor) {
         for(int i = 0; i < times; i++) {
             Stitch s = new Stitch(abbr, note);
             p.append(s);
-            if (anchor) {
+            if (anchorStitch != null) {
+                p.moveX(ith, anchorStitch);
                 p.addAnchor(s);
+                if (note.contains("beginning ch counts as")) {
+                    p.overwritePreviousRowEnd("ch");
+                }
             }
         }
     }
