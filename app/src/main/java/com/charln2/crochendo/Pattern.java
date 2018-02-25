@@ -112,14 +112,20 @@ public class Pattern {
     public void moveX(String anchorStitch) {
         moveX(1, anchorStitch);
     }
+
     public void moveX(int ith, String anchorTarget) {
-        while (ith > 0) {
-            do {
-                x = x.prev;
-            } while(x.name.equals("sk"));
-            if (anchorTarget == null || x.name.equalsIgnoreCase(anchorTarget)) {
-                ith--;
+        try {
+            while (ith > 0) {
+                do {
+                    x = x.prev;
+                } while (x.name.equals("sk"));
+                if (anchorTarget == null || x.name.equalsIgnoreCase(anchorTarget)) {
+                    ith--;
+                }
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Log.e(TAG, "moveX: anchorTarget %s not found");
         }
     }
 

@@ -71,6 +71,16 @@ public class InstructionParsingUnitTest {
         p.executeInstructions();
         assertEquals("sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   |dc   |sk   |sk   ", p.toString());
     }
+
+    @Test(expected = NoClassDefFoundError.class)
+    public void anchor_not_found() throws Exception {
+        p.parseLine("ch 7");
+        p.parseLine("Row 1");
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.parseLine("sk 2 zfakeAnchor");
+        p.executeInstructions();
+    }
+
     @Test
     @Ignore ("hold not yet implemented")
     public void hold() throws Exception {
