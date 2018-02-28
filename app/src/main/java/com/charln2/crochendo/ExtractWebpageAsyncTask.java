@@ -14,9 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by charl on 2/21/2018.
- */
+
 
 public class ExtractWebpageAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
     private static final String TAG = ExtractWebpageAsyncTask.class.getSimpleName();

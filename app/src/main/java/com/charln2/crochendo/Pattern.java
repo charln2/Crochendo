@@ -12,16 +12,15 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+import java.util.Stack;
 
 import static android.content.ContentValues.TAG;
 
-/**
- * Created by charl on 2/21/2018.
- */
+
 
 public class Pattern {
 
-    private Stitch head, tail, x;
+    private Stitch head, tail, x, dummy;
     ArrayList<Stitch> rowEnds;
     private boolean rsIsOdd = true;
     private Queue<Instruction> q = new LinkedList<>();
@@ -29,11 +28,11 @@ public class Pattern {
 
     // default constructor for testing purposes
     public Pattern() {
+        head = tail = new Stitch("sl st");
+        dummy = new Stitch("dummy");
+        dummy.next = head;
+        head.prev = dummy;
         rowEnds = new ArrayList<>();
-        if (head == null) {
-            head = tail = new Stitch("sl st");
-//            rowEnds.add(x);
-        }
     }
     public Pattern(FileInputStream rawInstructions) throws InstantiationException {
         this();
@@ -97,10 +96,6 @@ public class Pattern {
     }
 
     public void append(Stitch st) {
-        if (head == null) {
-            head = tail = x = new Stitch("sl st");
-            rowEnds.add(x);
-        }
         tail.next = st;
         st.prev = tail;
         tail = tail.next;
@@ -137,12 +132,39 @@ public class Pattern {
     @Override
     public String toString() {
         StringBuilder out = new StringBuilder();
-        Stitch cur = head;
-        while (cur != null) {
-            out.append(String.format("%-5s|", cur));
-            cur = cur.next;
+        ArrayList<String> row = new ArrayList<>();
+
+        Stack<Stitch> toPrint = new Stack<>();
+
+        toPrint.push(dummy);
+        for(int i = 0; i < rowEnds.size(); i++) {
+            toPrint.push(rowEnds.get(i));
         }
-        out.setLength(out.length()-1);
+        if (tail != toPrint.peek()) {
+            toPrint.push(tail);
+        }
+
+        while (toPrint.size() > 1) {
+            row.clear();
+            Stitch curStitch = toPrint.pop();
+            Stitch dest = toPrint.peek();
+            while (curStitch != dest) {
+                if (toPrint.size()%2==0) {
+                    // add each odd row in "reverse" order during descent
+                    row.add(curStitch.toString());
+                } else {
+                    row.add(0, curStitch.toString());
+                }
+                curStitch = curStitch.prev;
+            }
+            for (String s : row) {
+                out.append(String.format("%-5s|", s));
+            }
+            out.setLength(out.length()-1);
+            out.append('\n');
+            //todo: add shell sub-instructions?
+        }
+        out.setLength(out.length()-1); // get rid of \n
         return out.toString();
     }
 

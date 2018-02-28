@@ -2,9 +2,7 @@ package com.charln2.crochendo.Instructions;
 
 import com.charln2.crochendo.Pattern;
 
-/**
- * Created by charl on 2/23/2018.
- */
+
 
 public class Row extends Instruction {
     public Row(String rawInstruction) {

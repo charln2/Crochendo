@@ -2,9 +2,7 @@ package com.charln2.crochendo.Instructions;
 
 import java.util.Scanner;
 
-/**
- * Created by Ripley on 2/24/2018.
- */
+
 
 public class Skip extends StitchInstruction {
     Skip(String rawInstruction) {

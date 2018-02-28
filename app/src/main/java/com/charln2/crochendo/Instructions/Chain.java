@@ -2,9 +2,7 @@ package com.charln2.crochendo.Instructions;
 
 import java.util.Scanner;
 
-/**
- * Created by Ripley on 2/22/2018.
- */
+
 
 public class Chain extends StitchInstruction {
     public Chain(String rawInstruction) {

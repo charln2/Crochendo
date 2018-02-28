@@ -56,7 +56,7 @@ public class InstructionParsingUnitTest {
         p.parseLine("Row 1 (RS):");
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
         p.executeInstructions();
-        assertEquals("sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   |dc   ", p.toString());
+        assertEquals("ch   |ch   |ch   |ch   |ch   |ch   |ch   |dc   ", p.toString());
         //todo: x location
     }
 
@@ -67,9 +67,10 @@ public class InstructionParsingUnitTest {
         p.parseLine("ch 7");
         p.parseLine("Row 1");
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
-        p.parseLine("sk 2 ch");
+        p.parseLine("sk 3 ch");
         p.executeInstructions();
-        assertEquals("sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   |dc   |sk   |sk   ", p.toString());
+        assertEquals("                         |dc   |sk   |sk   |sk   "
+                            + "\nsl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   ", p.toString());
     }
 
     @Test(expected = NoClassDefFoundError.class)

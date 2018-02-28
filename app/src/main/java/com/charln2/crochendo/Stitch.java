@@ -2,9 +2,7 @@ package com.charln2.crochendo;
 
 import java.util.ArrayList;
 
-/**
- * Created by Ripley on 2/22/2018.
- */
+
 
 public class Stitch {
     String name;
