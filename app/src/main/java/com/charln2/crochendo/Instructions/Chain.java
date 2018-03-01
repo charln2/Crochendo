@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 
 
-public class Chain extends StitchInstruction {
+public class Chain extends Instruction {
     public Chain(String rawInstruction) {
         abbr = "ch";
         parse(rawInstruction);

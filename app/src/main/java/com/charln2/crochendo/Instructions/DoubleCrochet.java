@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 
 
-public class DoubleCrochet extends StitchInstruction {
+public class DoubleCrochet extends Instruction {
     public DoubleCrochet(String rawInstruction) {
         abbr = "dc";
         parse(rawInstruction);

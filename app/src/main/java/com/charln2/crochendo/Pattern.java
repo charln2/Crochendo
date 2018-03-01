@@ -2,8 +2,8 @@ package com.charln2.crochendo;
 
 import android.util.Log;
 
-import com.charln2.crochendo.Instructions.Instruction;
 import com.charln2.crochendo.Instructions.InstructionFactory;
+import com.charln2.crochendo.Instructions.Instruction;
 
 import java.io.FileInputStream;
 import java.io.InputStreamReader;

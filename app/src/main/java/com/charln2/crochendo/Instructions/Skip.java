@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 
 
-public class Skip extends StitchInstruction {
+public class Skip extends Instruction {
     Skip(String rawInstruction) {
         abbr = "sk";
         parse(rawInstruction);

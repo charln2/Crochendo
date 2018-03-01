@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Stitch {
     String name;
-    Stitch prev, next;
+    Stitch prev, next, shell;
     ArrayList<Stitch> anchors;
     String note;
     private Stitch() {}
