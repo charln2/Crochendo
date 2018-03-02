@@ -1,5 +1,7 @@
 package com.charln2.crochendo.Instructions;
 
+import com.charln2.crochendo.Stitch;
+
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -13,16 +15,12 @@ public class InstructionFactory {
 
     private InstructionFactory(){}
     public static Instruction getInstruction(String rawInstruction) throws InstantiationException{
-        Scanner sc = new Scanner(rawInstruction);
-        StringBuilder abbrev = new StringBuilder();
-        while (!isValidInstruction(abbrev.toString()) && sc.hasNext()) {
-            if(abbrev.toString().matches("\\d+")) {
-                abbrev.setLength(0); // clear out number, start over.
-            }
-            abbrev.append(sc.next());
+        rawInstruction = rawInstruction.toLowerCase().trim();
+        Stitch newStitch = Stitch.getStitch(rawInstruction);
+        if (rawInstruction.startsWith("*")) {
         }
-        if (isValidInstruction(abbrev.toString())) {
-            switch (abbrev.toString()) {
+        if (newStitch != null) {
+            switch (newStitch.toString()) {
                 case "ch":
                     return new Chain(rawInstruction);
                 case "row":
@@ -32,32 +30,19 @@ public class InstructionFactory {
                 case "sk":
                     return new Skip(rawInstruction);
                     //todo: turn instruction
+                case "(":
+                    //todo: make shell instruction
+//                    return new Shell(rawInstruction);
+                case "sl st":
                     //todo: slip stitch instruction
-
-                default:
-                    if (abbrev.toString().startsWith("*")) {
-                        //todo: make Hold instruction
-    //                    return new Hold(rawInstruction);
-                    }
-                    if (abbrev.toString().startsWith("(")) {
-                        //todo: make shell instruction
-    //                    return new Shell(rawInstruction);
-                    }
             }
+        } else if (rawInstruction.startsWith("*")) {
+            //todo: make Hold instruction
+            //                    return new Hold(rawInstruction);
         }
-        throw new InstantiationException(String.format("No factory class for \"%s\"", abbrev));
+        throw new InstantiationException(
+                String.format("No existing instruction for instruction \"%s\"", rawInstruction));
     }
 
-    // kinda cludgey. Find a better way but good makeshift design choice for now
-    public static final HashSet<String> stitches = new HashSet<String>(){{
-        add("ch");
-        add("dc");
-        add("sl st");
-        add("row");
-        add("sk");
-    }};
-    public static boolean isValidInstruction(String s) {
-        s = s.toLowerCase().trim();
-        return stitches.contains(s) || s.startsWith("*");
-    }
+
 }

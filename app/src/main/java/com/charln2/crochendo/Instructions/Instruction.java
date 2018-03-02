@@ -27,8 +27,9 @@ public abstract class Instruction {
 
     public void execute(Pattern p) {
         for(int i = 0; i < times; i++) {
-            Stitch s = new Stitch(abbr, note);
+            Stitch s = makeStitch(abbr);
             p.append(s);
+
             if (anchorStitch != null) {
                 p.moveX(ith, anchorStitch);
                 p.addAnchor(s);
@@ -36,6 +37,24 @@ public abstract class Instruction {
                     p.overwritePreviousRowEnd("ch");
                 }
             }
+        }
+    }
+    // () check?
+    // @Override
+    // instantiate
+    Stitch makeStitch(String abbr) {
+        return Stitch.getStitch(abbr);
+    }
+        // appendShell
+
+    // move/anchor
+    void attach(Pattern p, Stitch s) {
+        // attatch to pattern
+        p.append(s);
+        // attach to anchor
+        if (anchorStitch != null) {
+            p.moveX(ith, anchorStitch);
+            p.addAnchor(s);
         }
     }
 }
