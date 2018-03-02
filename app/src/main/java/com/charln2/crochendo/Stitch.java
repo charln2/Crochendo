@@ -26,12 +26,13 @@ public class Stitch {
 //        // todo: handle shell case. (handling in Shell Instruction's Execute method
 //        if (validStitch.equals("(")) {
 //            //  name = ^^^
-//            // parse/append instructions into shell
+//            // parse/add instructions into shell
 //            // outer instruction class handles attaching to pattern & anchoring
 //
 //        }
         return validStitch == null ? null : new Stitch(validStitch, rawInstruction);
     }
+    // package private, so Pattern can instantiate
     private Stitch(String name, String note) {
         this.name = name;
         this.prev = null;
@@ -56,15 +57,15 @@ public class Stitch {
 
     @Override
     public String toString() {
+//        return String.format("%-5s|", name);
         return name;
     }
 
-    private static String hasValidStitch(String s) {
-        s = s.toLowerCase().trim();
+    private static String hasValidStitch(String rawInstruction) {
         Iterator<String> iter = stitches.iterator();
         while(iter.hasNext()) {
             String validStitch = iter.next();
-            if (s.startsWith(validStitch)) {
+            if (rawInstruction.startsWith(validStitch)) {
                 return validStitch;
             }
         }

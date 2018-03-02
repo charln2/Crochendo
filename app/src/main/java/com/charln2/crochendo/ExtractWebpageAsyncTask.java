@@ -52,7 +52,7 @@ public class ExtractWebpageAsyncTask extends AsyncTask<String, Void, ArrayList<S
         } catch (IOException e) {
             e.printStackTrace();
             list.add(e.getMessage());
-//                    sb.append("Error: ").append(e.getMessage()).append('\n');
+//                    sb.add("Error: ").add(e.getMessage()).add('\n');
         }
 
 

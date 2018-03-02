@@ -4,8 +4,8 @@ import com.charln2.crochendo.Pattern;
 
 
 
-public class Row extends Instruction {
-    public Row(String rawInstruction) {
+public class RowInstruction extends Instruction {
+    public RowInstruction(String rawInstruction) {
         abbr = "row";
         note = rawInstruction;
 //        parse(rawInstruction);
@@ -13,10 +13,10 @@ public class Row extends Instruction {
     @Override
     void parse(String rawInstruction) {
         //Todo: validate rows in Pattern's ArrayList?
-        //Row 1 (RS)
-        //Row 2
+        //RowInstruction 1 (RS)
+        //RowInstruction 2
 
-        //Todo: Row[s] 2-4 (grouped rows)
+        //Todo: RowInstruction[s] 2-4 (grouped rows)
     }
 
     @Override
