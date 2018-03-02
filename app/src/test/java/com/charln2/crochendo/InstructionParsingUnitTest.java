@@ -42,27 +42,25 @@ public class InstructionParsingUnitTest {
 
     @Test
     public void ch_11() throws Exception {
-        p.parseLine("ch 7");
+        p.parseLine("ch 11");
         p.executeInstructions();
-
-        assertEquals("sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   ", p.toString());
+        String[] expected = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
+        assertEquals(printExpected(expected), p.toString());
     }
     @Test(expected = InstantiationException.class)
     public void nonexistent_instruction() throws Exception {
         p.parseLine("zq");
     }
     @Test
-    public void row() throws Exception {
-        p.parseLine("ch 7");
-        assertTrue(p.rows.isEmpty());
-
-        p.parseLine("RowInstruction 1 (RS):");
-        p.executeInstructions();
-        assertTrue(p.rows.size() == 1);
-
-        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
-        p.executeInstructions();
+    public void row_1st() throws Exception {
         // todo: print by testing 0th and 1st row.
+        p.parseLine("ch 11, Row 1 (RS):");
+        assertTrue(p.rows.size() == 1);
+        p.executeInstructions();
+        assertTrue(p.rows.size() == 2);
+
+//        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+//        p.executeInstructions();
     }
 
     @Test
