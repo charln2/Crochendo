@@ -148,6 +148,7 @@ public class Pattern {
         for(int i = rows.size()-1; i >= 0; i--) {
             out.append(rows.get(i).toString()).append('\n');
         }
+        out.setLength(out.length()-1); // trim last '\n' character
         return out.toString();
     }
 

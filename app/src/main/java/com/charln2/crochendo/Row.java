@@ -19,13 +19,13 @@ public class Row {
         // todo: refactor, D.R.Y.
         if (ltr) {
             Stitch cur = head;
-            while (cur != tail) {
+            while (cur != null) {
                 sb.append(String.format("%-5s|", cur.toString()));
                 cur = cur.next;
             }
         } else {
             Stitch cur = tail;
-            while (cur != head) {
+            while (cur != null) {
                 sb.append(String.format("%-5s|", cur.toString()));
                 cur = cur.prev;
             }
@@ -40,6 +40,7 @@ public class Row {
     void add(Stitch s) {
         if (head == null) {
             head = tail = s;
+            return;
         }
         s.prev = tail;
         tail.next = s;
