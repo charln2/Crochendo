@@ -22,8 +22,9 @@ public class ShellInstruction extends Instruction {
         stitchCounts = new ArrayList<>();
         // (3 dc, ch 1, 3 dc)
 //        parens = parens.replaceAll("[()]", "");
+        parens = parens.replaceAll("[()]","");
         Scanner sc = new Scanner(parens);
-        sc.useDelimiter("[()\\s,]");
+        sc.useDelimiter(",\\s*|\\s+");
         while (sc.hasNext()) {
             if (sc.hasNextInt()) {
                 stitchCounts.add(sc.nextInt());
@@ -58,6 +59,7 @@ public class ShellInstruction extends Instruction {
                 shell.addShellStitch(new Stitch(stitchName));
             }
         }
+        p.add(shell);
         return shell;
     }
 }
