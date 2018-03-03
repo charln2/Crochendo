@@ -57,6 +57,9 @@ public class InstructionFactory {
     }};
     static HashMap<String,Instruction> specialCaseInstructions = new HashMap<String, Instruction>() {{
         put("sl st", new SlipStitchInstruction());
+        //todo: hold
+        put("*", new HoldInstruction());
+//
         //todo: shell instruction
         //put("(", new ShellInstruction());
 //        if (rawInstruction.contains("(beginning ch counts as)")) {
@@ -64,13 +67,6 @@ public class InstructionFactory {
 ////                rows.add(x);
 //        }
         //todo: turn
-        //todo: hold
-//        while (rawInstruction.startsWith("*")) {
-//            int i;
-//            for (i = 0; i < rawInstruction.length() && rawInstruction.charAt(i)!='*'; i++);
-//            qInstructions.add(InstructionFactory.getInstruction(rawInstruction.substring(0,i)));
-//            rawInstruction = rawInstruction.substring(i);
-//        }
         //todo: chain group
     }};
 }

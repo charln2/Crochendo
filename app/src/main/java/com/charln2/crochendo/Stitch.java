@@ -7,6 +7,8 @@ import java.util.Iterator;
 
 public class Stitch {
     String name;
+
+
     Stitch prev, next, shell;
     ArrayList<Stitch> anchors;
     String note;
@@ -63,5 +65,13 @@ public class Stitch {
     public String toString() {
 //        return String.format("%-5s|", name);
         return name;
+
+    }
+    public Stitch prev() {
+        return prev;
+    }
+
+    public Stitch next() {
+        return next;
     }
 }

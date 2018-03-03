@@ -7,6 +7,7 @@ import org.junit.Test;
 import java.util.Scanner;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 public class InstructionParsingUnitTest {
@@ -24,14 +25,6 @@ public class InstructionParsingUnitTest {
     @Before
     public void setUp() throws Exception {
         p = new Pattern();
-    }
-
-    @Test(timeout=1000) // in ms
-    //(expected = IllegalStateException.class)
-    @Ignore ("Excluding example test given for reference. Just seeing how it works.")
-    public void addition_isCorrect_example() throws Exception {
-        assertEquals(4, 2 + 2);
-        assertEquals(2, 1+1);
     }
 
     @Test
@@ -120,15 +113,27 @@ public class InstructionParsingUnitTest {
     }
 
     @Test
-    @Ignore ("hold not yet implemented")
-    public void hold() throws Exception {
+    public void hold_skip() throws Exception {
+        p.parseLine("ch 11");
+        p.parseLine("Row 1");
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.parseLine("*sk next 2 ch");
+        p.executeInstructions();
 
 
-
-//        Scanner sc = new Scanner("*stitch with asterisk");
-//        StringBuilder sb = new StringBuilder("*stitch with asterisk");
-//        sb.replace(0,1, "");
-//        System.out.println(sb.toString());
+        String[] r1 = {"","","","","","","sk","sk","dc","ch-3"};
+        String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
+        StringBuilder sb = new StringBuilder();
+        sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
+        assertEquals(sb.toString(), p.toString());
+        Stitch check = p.rows.get(0).tail.prev;
+        assertSame(check, p.hold.get("*"));
+        int i = 0;
+        while (check != null) {
+            i++;
+            check = check.next();
+        }
+        assertEquals(2, i);
     }
     // --- Small Experiments ---
 

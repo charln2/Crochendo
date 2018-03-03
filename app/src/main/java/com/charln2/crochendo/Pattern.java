@@ -23,7 +23,7 @@ public class Pattern {
     ArrayList<Row> rows;
     int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
-    HashMap<String, Stitch> hold = new HashMap<>();
+    public HashMap<String, Stitch> hold = new HashMap<>();
     private boolean rsIsOdd = true;
 
     // default constructor for testing purposes
@@ -78,9 +78,15 @@ public class Pattern {
         while (sc.hasNext()) {
             String rawInstruction = sc.next();
             // additional unpacking of special-case instruction line fragments
+
             // HOLD: *[some stitch]
                 // map * stitch position, continue with rest of stitch
-
+            if (rawInstruction.startsWith("*")) {
+                int i;
+                for (i = 0; i < rawInstruction.length() && rawInstruction.charAt(i) == '*'; i++) ;
+                qInstructions.add(InstructionFactory.getInstruction(rawInstruction.substring(0, i)));
+                rawInstruction = rawInstruction.substring(i);
+            }
             qInstructions.add(InstructionFactory.getInstruction(rawInstruction)); // "(" handled too!
             // "(" SHELL:
             // todo: create shell class
