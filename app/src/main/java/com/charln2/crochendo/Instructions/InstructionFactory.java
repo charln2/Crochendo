@@ -59,13 +59,8 @@ public class InstructionFactory {
         put("sl st", new SlipStitchInstruction());
         //todo: hold
         put("*", new HoldInstruction());
-//
         //todo: shell instruction
-        //put("(", new ShellInstruction());
-//        if (rawInstruction.contains("(beginning ch counts as)")) {
-//            //todo: unpack "hidden" instructions
-////                rows.add(x);
-//        }
+        put("(", new ShellInstruction());
         //todo: turn
         //todo: chain group
     }};

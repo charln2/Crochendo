@@ -8,8 +8,7 @@ import java.util.Iterator;
 public class Stitch {
     String name;
 
-
-    Stitch prev, next, shell;
+    Stitch prev, next;
     ArrayList<Stitch> anchors;
     String note;
 //    // kinda cludgey. Find a better way but good makeshift design choice for now
@@ -22,8 +21,14 @@ public class Stitch {
 //        add("sk");
 //        add("(");
 //    }};
+//    public Stitch(String name) {
+//        this.name = name;
+//    }
     public Stitch(String name) {
         this.name = name;
+        this.prev = null;
+        this.next = null;
+        this.note = null;
     }
     // todo: decide if constructor is better. Light factory
 //    public static Stitch getStitch(String rawInstruction)  {
@@ -40,9 +45,7 @@ public class Stitch {
 //    }
     // package private, so Pattern can instantiate
     protected Stitch(String name, String note) {
-        this.name = name;
-        this.prev = null;
-        this.next = null;
+        this(name);
         this.note = note;
     }
 
@@ -53,24 +56,16 @@ public class Stitch {
         anchors.add(s);
     }
 
-    void addShellStitch(Stitch s) {
-        if (shell == null) {
-            shell = s;
-        }
-        shell.next = s;
-        s.prev = shell;
-    }
-
     @Override
     public String toString() {
 //        return String.format("%-5s|", name);
         return name;
 
     }
+
     public Stitch prev() {
         return prev;
     }
-
     public Stitch next() {
         return next;
     }

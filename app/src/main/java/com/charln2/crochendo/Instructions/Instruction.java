@@ -22,18 +22,20 @@ public abstract class Instruction {
 
 
     void parse(String rawInstruction) {
+        rawInstruction = rawInstruction.replaceAll("(next|first)", "");
         Scanner sc = new Scanner(rawInstruction);
         // put (...) in note
         String parens = sc.findInLine("\\(.*\\)");
         if (parens != null) {
             note = parens;
         }
+
     }
 
     public void execute(Pattern p) {
-        for(int i = 0; i < times; i++) {
-            Stitch s = new Stitch(abbr);
-            attach(p,s);
+        for (int i = 0; i < times; i++) {
+            Stitch s = attach(p);
+            anchor(p,s);
         }
         if (note != null) {
             executeSecondaryInstructions(p);
@@ -45,16 +47,16 @@ public abstract class Instruction {
         // appendShell
 
     // move/anchor
-    void attach(Pattern p, Stitch s) {
+    protected Stitch attach(Pattern p) {
+        Stitch s = new Stitch(abbr);
         // attatch to pattern
         p.add(s);
-        // attach to anchor
+        return s;
+    }
+    protected void anchor(Pattern p, Stitch s) {
         if (anchorStitch != null) {
             p.moveX(ith, anchorStitch);
             p.addAnchor(s);
-            if (note.contains("(beginning ch counts as")) {
-                p.overwritePreviousRowEnd("ch");
-            }
         }
     }
 

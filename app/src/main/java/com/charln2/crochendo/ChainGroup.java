@@ -7,7 +7,7 @@ package com.charln2.crochendo;
 public class ChainGroup extends Stitch {
     int n;
     public ChainGroup(int n) {
-        super("chain group", "ch-"+n);
+        super("ch-"+n);
         this.n = n;
     }
     @Override

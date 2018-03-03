@@ -37,6 +37,45 @@ public class Row {
     }
 
     //todo: toStringExpanded
+    public String toStringExpanded() {
+        StringBuilder sb = new StringBuilder();
+        // todo: refactor, D.R.Y.
+        if (ltr) {
+            Stitch cur = head;
+            while (cur != null) {
+                if (cur instanceof ShellStitch) {
+                    Stitch shell = ((ShellStitch) cur).shell;
+                    while (shell != null) {
+                        sb.append(String.format("%-5s|", shell.toString()));
+                        shell = shell.next;
+                    }
+                } else {
+                    sb.append(String.format("%-5s|", cur.toString()));
+                }
+                cur = cur.next;
+            }
+        } else {
+            Stitch cur = tail;
+            while (cur != null) {
+                if (cur instanceof ShellStitch) {
+                    Stitch shell = ((ShellStitch) cur).shell;
+                    while (shell != null) {
+                        sb.append(String.format("%-5s|", shell.toString()));
+                        // todo: print backwards? They're usually symmetric
+                        shell = shell.next;
+                    }
+                } else {
+                    sb.append(String.format("%-5s|", cur.toString()));
+                }
+                cur = cur.prev;
+            }
+        }
+        if (sb.length() > 0) {
+            sb.setLength(sb.length()-1); // trim last "|"
+        }
+        return sb.toString();
+    }
+
     void add(Stitch s) {
         if (head == null) {
             head = tail = s;
