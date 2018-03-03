@@ -5,9 +5,16 @@ import java.util.Scanner;
 
 
 public class ChainInstruction extends Instruction {
+
+    @Override
+    Instruction create() {
+        return new ChainInstruction();
+    }
+
     public ChainInstruction() {
         abbr = "ch";
     }
+
     @Override
     void parse(String rawInstruction) {
         // ch 3

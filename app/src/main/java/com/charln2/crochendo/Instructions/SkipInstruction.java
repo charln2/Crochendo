@@ -5,10 +5,15 @@ import java.util.Scanner;
 
 
 public class SkipInstruction extends Instruction {
-    SkipInstruction(String rawInstruction) {
+    SkipInstruction() {
         abbr = "sk";
-        parse(rawInstruction);
     }
+
+    @Override
+    Instruction create() {
+        return new SkipInstruction();
+    }
+
     @Override
     void parse(String rawInstruction) {
         //sk first dc

@@ -22,7 +22,6 @@ public class InstructionFactory {
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-
         i.parse(rawInstruction);
         return i;
     }
@@ -31,13 +30,14 @@ public class InstructionFactory {
         StringBuilder sb = new StringBuilder();
         Scanner sc = new Scanner(rawInstruction);
 
+        //todo: refactor D.R.Y.
         // check 1: match stitches exactly
         // "sl st" is 2 words in length. Potential for
         for(int i = 0; i < 2; i++) {
             if (sc.hasNext()) {
                 sb.append(sc.next());
                 if (stitchInstructions.containsKey(sb.toString())) {
-                    return stitchInstructions.get(sb.toString());
+                    return stitchInstructions.get(sb.toString()).create();
                 }
             }
         }
@@ -45,7 +45,7 @@ public class InstructionFactory {
         // in a more brute-force way
         for(String s : specialCaseInstructions.keySet()) {
             if (rawInstruction.startsWith(s)) {
-                return specialCaseInstructions.get(s);
+                return specialCaseInstructions.get(s).create();
             }
         }
 
@@ -53,13 +53,12 @@ public class InstructionFactory {
                 String.format("No existing instruction for \"%s\"", rawInstruction));
     }
 
-    static HashMap<String,Instruction> stitchInstructions = new HashMap<String, Instruction>() {
-        "ch"->{new ChainInstruction()}
-//        put("ch", new ChainInstruction());
-//        put("row", new RowInstruction());
-//        put("dc", new DoubleCrochetInstruction());
-//        put("sk", new SkipInstruction());
-    };
+    static HashMap<String,Instruction> stitchInstructions = new HashMap<String, Instruction>() {{
+        put("ch", new ChainInstruction());
+        put("row", new RowInstruction());
+        put("dc", new DoubleCrochetInstruction());
+        put("sk", new SkipInstruction());
+    }};
     static HashMap<String,Instruction> specialCaseInstructions = new HashMap<String, Instruction>() {{
         put("sl st", new SlipStitchInstruction());
         //todo: shell instruction

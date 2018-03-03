@@ -16,6 +16,8 @@ public abstract class Instruction {
     String anchorStitch;
     int ith = 1;
 
+    abstract Instruction create();
+
     void parse(String rawInstruction) {
         Scanner sc = new Scanner(rawInstruction);
         // put (...) in note
@@ -27,7 +29,7 @@ public abstract class Instruction {
 
     public void execute(Pattern p) {
         for(int i = 0; i < times; i++) {
-            Stitch s = Stitch.getStitch(abbr);
+            Stitch s = new Stitch(abbr);
             p.add(s);
 
             if (anchorStitch != null) {

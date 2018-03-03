@@ -5,9 +5,13 @@ import java.util.Scanner;
 
 
 public class DoubleCrochetInstruction extends Instruction {
-    public DoubleCrochetInstruction(String rawInstruction) {
+    public DoubleCrochetInstruction() {
         abbr = "dc";
-        parse(rawInstruction);
+    }
+
+    @Override
+    Instruction create() {
+        return new DoubleCrochetInstruction();
     }
 
     @Override
