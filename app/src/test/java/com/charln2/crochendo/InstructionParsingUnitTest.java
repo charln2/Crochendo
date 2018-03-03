@@ -49,7 +49,11 @@ public class InstructionParsingUnitTest {
     }
     @Test(expected = InstantiationException.class)
     public void nonexistent_instruction() throws Exception {
-        p.parseLine("zq");
+//        try {
+            p.parseLine("zq");
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        }
     }
     @Test
     public void row_1st() throws Exception {
@@ -93,7 +97,7 @@ public class InstructionParsingUnitTest {
     @Test(expected = NoClassDefFoundError.class)
     public void anchor_not_found() throws Exception {
         p.parseLine("ch 7");
-        p.parseLine("RowInstruction 1");
+        p.parseLine("Row 1");
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
         p.parseLine("sk 2 zfakeAnchor");
         p.executeInstructions();

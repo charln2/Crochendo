@@ -17,12 +17,8 @@ public class InstructionFactory {
         rawInstruction = rawInstruction.replaceAll("work","");
 
         Instruction i = null;
-        try {
-            i = fetchInstruction(rawInstruction);
-            i.parse(rawInstruction);
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        }
+        i = fetchInstruction(rawInstruction);
+        i.parse(rawInstruction);
         return i;
     }
 
@@ -63,8 +59,18 @@ public class InstructionFactory {
         put("sl st", new SlipStitchInstruction());
         //todo: shell instruction
         //put("(", new ShellInstruction());
+//        if (rawInstruction.contains("(beginning ch counts as)")) {
+//            //todo: unpack "hidden" instructions
+////                rows.add(x);
+//        }
         //todo: turn
         //todo: hold
+//        while (rawInstruction.startsWith("*")) {
+//            int i;
+//            for (i = 0; i < rawInstruction.length() && rawInstruction.charAt(i)!='*'; i++);
+//            qInstructions.add(InstructionFactory.getInstruction(rawInstruction.substring(0,i)));
+//            rawInstruction = rawInstruction.substring(i);
+//        }
         //todo: chain group
     }};
 }

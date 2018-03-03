@@ -79,17 +79,8 @@ public class Pattern {
             // additional unpacking of special-case instruction line fragments
             // HOLD: *[some stitch]
                 // map * stitch position, continue with rest of stitch
-            while (rawInstruction.startsWith("*")) {
-                int i;
-                for (i = 0; i < rawInstruction.length() && rawInstruction.charAt(i)!='*'; i++);
-                qInstructions.add(InstructionFactory.getInstruction(rawInstruction.substring(0,i)));
-                rawInstruction = rawInstruction.substring(i);
-            }
+
             qInstructions.add(InstructionFactory.getInstruction(rawInstruction)); // "(" handled too!
-            if (rawInstruction.contains("(beginning ch counts as)")) {
-                //todo: unpack "hidden" instructions
-//                rows.add(x);
-            }
             // "(" SHELL:
             // todo: create shell class
             // SHELL: if startsWith (, group, skip, continue to next ,.
