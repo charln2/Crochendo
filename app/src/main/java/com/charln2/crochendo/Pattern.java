@@ -146,9 +146,25 @@ public class Pattern {
         StringBuilder out = new StringBuilder();
 
         for(int i = rows.size()-1; i >= 0; i--) {
-            out.append(rows.get(i).toString()).append('\n');
+            out.append(rows.get(i).toString());
+            // append padding, if row index odd
+            if (i > 0 && i%2==1) {
+                Stitch padder = rows.get(i-1).head;
+                int spaces = 0;
+                while (padder != null && padder.anchors == null) {
+                    spaces++;
+                    padder=padder.next;
+                }
+                for(int sp = 0; sp < spaces; sp++) {
+                    out.insert(0,("     |"));
+                }
+            }
+            // get earliest anchored stitch of prev row
+            // count spaces down to row start, exclusive
+            // prepend that many "blank" padding spaces onto
+            out.append('\n');
         }
-        out.setLength(out.length()-1); // trim last '\n' character
+        out.setLength(out.length()-1);
         return out.toString();
     }
 

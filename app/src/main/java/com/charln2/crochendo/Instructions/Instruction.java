@@ -18,10 +18,11 @@ public abstract class Instruction {
 
     abstract Instruction create();
 
+
     void parse(String rawInstruction) {
         Scanner sc = new Scanner(rawInstruction);
         // put (...) in note
-        String parens = sc.findInLine("\\(*\\)");
+        String parens = sc.findInLine("\\(.*\\)");
         if (parens != null) {
             note = parens;
         }
@@ -30,15 +31,7 @@ public abstract class Instruction {
     public void execute(Pattern p) {
         for(int i = 0; i < times; i++) {
             Stitch s = new Stitch(abbr);
-            p.add(s);
-
-            if (anchorStitch != null) {
-                p.moveX(ith, anchorStitch);
-                p.addAnchor(s);
-                if (note.contains("beginning ch counts as")) {
-                    p.overwritePreviousRowEnd("ch");
-                }
-            }
+            attach(p,s);
         }
     }
     // () check?
@@ -54,6 +47,9 @@ public abstract class Instruction {
         if (anchorStitch != null) {
             p.moveX(ith, anchorStitch);
             p.addAnchor(s);
+            if (note.contains("beginning ch counts as")) {
+                p.overwritePreviousRowEnd("ch");
+            }
         }
     }
 }

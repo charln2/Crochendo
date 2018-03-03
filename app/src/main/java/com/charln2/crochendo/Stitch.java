@@ -44,11 +44,11 @@ public class Stitch {
         this.note = note;
     }
 
-    void addAnchor(Stitch a) {
+    void addAnchor(Stitch s) {
         if (anchors == null) {
             anchors = new ArrayList<>();
         }
-        anchors.add(a);
+        anchors.add(s);
     }
 
     void addShellStitch(Stitch s) {

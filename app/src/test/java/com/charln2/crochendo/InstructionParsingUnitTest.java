@@ -44,8 +44,8 @@ public class InstructionParsingUnitTest {
     public void ch_11() throws Exception {
         p.parseLine("ch 11");
         p.executeInstructions();
-        String[] expected = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
-        assertEquals(printExpected(expected), p.toString());
+        String[] e = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
+        assertEquals(printExpected(e), p.toString());
     }
     @Test(expected = InstantiationException.class)
     public void nonexistent_instruction() throws Exception {
@@ -64,13 +64,17 @@ public class InstructionParsingUnitTest {
     }
 
     @Test
-    public void double_crochet() throws Exception {
-        p.parseLine("ch 7");
-        p.parseLine("RowInstruction 1 (RS):");
+    public void dc_4th_fr_hook() throws Exception {
+        p.parseLine("ch 11, Row 1 (RS):");
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
         p.executeInstructions();
-        assertEquals("ch   |ch   |ch   |ch   |ch   |ch   |ch   |dc   ", p.toString());
         //todo: x location
+
+        String[] r1 = {"","","","","","","","","dc"};
+        String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
+        StringBuilder sb = new StringBuilder();
+        sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
+        assertEquals(sb.toString(), p.toString());
     }
 
 

@@ -19,10 +19,10 @@ public class InstructionFactory {
         Instruction i = null;
         try {
             i = fetchInstruction(rawInstruction);
+            i.parse(rawInstruction);
         } catch (InstantiationException e) {
             e.printStackTrace();
         }
-        i.parse(rawInstruction);
         return i;
     }
 
