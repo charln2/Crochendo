@@ -20,8 +20,10 @@ public class Stitch {
         add("sk");
         add("(");
     }};
-    private Stitch() {}
+    protected Stitch() {}
+    // todo: decide if constructor is better. Light factory
     public static Stitch getStitch(String rawInstruction)  {
+        // level 3:
         String validStitch = hasValidStitch(rawInstruction);
 //        // todo: handle shell case. (handling in Shell Instruction's Execute method
 //        if (validStitch.equals("(")) {
@@ -33,7 +35,7 @@ public class Stitch {
         return validStitch == null ? null : new Stitch(validStitch, rawInstruction);
     }
     // package private, so Pattern can instantiate
-    private Stitch(String name, String note) {
+    protected Stitch(String name, String note) {
         this.name = name;
         this.prev = null;
         this.next = null;
@@ -59,16 +61,5 @@ public class Stitch {
     public String toString() {
 //        return String.format("%-5s|", name);
         return name;
-    }
-
-    private static String hasValidStitch(String rawInstruction) {
-        Iterator<String> iter = stitches.iterator();
-        while(iter.hasNext()) {
-            String validStitch = iter.next();
-            if (rawInstruction.startsWith(validStitch)) {
-                return validStitch;
-            }
-        }
-        return null;
     }
 }

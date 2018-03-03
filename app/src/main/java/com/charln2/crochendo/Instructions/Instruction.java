@@ -10,7 +10,7 @@ import java.util.Scanner;
  */
 
 public abstract class Instruction {
-    String abbr = "MISSING ABBREV";
+    protected String abbr = "MISSING ABBREV";
     String note = "";
     int times = 1;
     String anchorStitch;

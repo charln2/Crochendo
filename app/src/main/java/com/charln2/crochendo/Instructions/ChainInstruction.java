@@ -4,10 +4,9 @@ import java.util.Scanner;
 
 
 
-public class Chain extends Instruction {
-    public Chain(String rawInstruction) {
+public class ChainInstruction extends Instruction {
+    public ChainInstruction() {
         abbr = "ch";
-        parse(rawInstruction);
     }
     @Override
     void parse(String rawInstruction) {

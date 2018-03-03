@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 
 
-public class Skip extends Instruction {
-    Skip(String rawInstruction) {
+public class SkipInstruction extends Instruction {
+    SkipInstruction(String rawInstruction) {
         abbr = "sk";
         parse(rawInstruction);
     }

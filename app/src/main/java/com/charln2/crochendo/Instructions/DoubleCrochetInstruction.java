@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 
 
-public class DoubleCrochet extends Instruction {
-    public DoubleCrochet(String rawInstruction) {
+public class DoubleCrochetInstruction extends Instruction {
+    public DoubleCrochetInstruction(String rawInstruction) {
         abbr = "dc";
         parse(rawInstruction);
     }
