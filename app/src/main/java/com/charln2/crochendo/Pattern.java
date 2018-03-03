@@ -21,6 +21,7 @@ public class Pattern {
 
     private Stitch head, tail, x;
     ArrayList<Row> rows;
+    int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
     HashMap<String, Stitch> hold = new HashMap<>();
     private boolean rsIsOdd = true;
@@ -91,6 +92,10 @@ public class Pattern {
         }
     }
 
+    public int size() {
+        return size;
+    }
+
     public void add(Stitch st) {
 //        if (head == null) {
 //            head = tail = rows.get(0).head;
@@ -98,6 +103,7 @@ public class Pattern {
 //        }
         rows.get(rows.size()-1).add(st);
         tail = st;
+        size++;
     }
 
     public void moveX(int num) {
@@ -108,19 +114,16 @@ public class Pattern {
     }
 
     public void moveX(int ith, String anchorTarget) {
-        try {
             while (ith > 0) {
                 do {
                     x = x.prev;
+                    if (x == null) throw new NoClassDefFoundError(
+                            String.format("Could not find stitch '%s' in previous row", anchorTarget));
                 } while (x.name.equals("sk"));
                 if (anchorTarget == null || x.name.equalsIgnoreCase(anchorTarget)) {
                     ith--;
                 }
             }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            Log.e(TAG, "moveX: anchorTarget %s not found");
-        }
     }
 
     public void startNewRow() {
@@ -178,5 +181,19 @@ public class Pattern {
 
     public void addAnchor(Stitch s) {
         x.addAnchor(s);
+    }
+
+    public Stitch getX() {
+        return x;
+    }
+
+    public Row getRow(int i) {
+        if (i < 0) {
+            i = rows.size() + i;
+        }
+        if (i < 0 || i >= rows.size()) {
+            throw new IndexOutOfBoundsException(String.format("Row %d not found", i));
+        }
+        return rows.get(i);
     }
 }

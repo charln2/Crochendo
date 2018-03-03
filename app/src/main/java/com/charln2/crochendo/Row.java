@@ -46,4 +46,32 @@ public class Row {
         tail.next = s;
         tail = tail.next;
     }
+
+    public Stitch pop() throws IllegalAccessException {
+        Stitch ret = tail;
+        if (tail == null) throw new IllegalAccessException("Row is empty");
+
+        tail = tail.prev;
+        if (tail != null)
+            tail.next = null;
+
+        return tail;
+    }
+
+    public Stitch peekLast() throws IllegalAccessException {
+        if (tail == null) {
+            throw new IllegalAccessException("Row is empty");
+        }
+        return tail;
+    }
+
+    public void prepend(Stitch st) {
+        st.next = head;
+        head.prev = st;
+        head = st;
+    }
+
+    public boolean isEmpty() {
+        return head == null && tail == null;
+    }
 }

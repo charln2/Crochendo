@@ -6,11 +6,12 @@ package com.charln2.crochendo;
 
 public class ChainGroup extends Stitch {
     int n;
-    private ChainGroup(int n) {
-        super("ch", "ch-"+n);
+    public ChainGroup(int n) {
+        super("chain group", "ch-"+n);
+        this.n = n;
     }
     @Override
     public String toString() {
-        return "ch-"+n;
+        return String.format("ch-%d",n);
     }
 }

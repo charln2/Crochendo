@@ -70,7 +70,7 @@ public class InstructionParsingUnitTest {
     @Test
     public void dc_4th_fr_hook() throws Exception {
         p.parseLine("ch 11, Row 1 (RS):");
-        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.parseLine(" Dc in 4th ch from hook\n");
         p.executeInstructions();
         //todo: x location
 
@@ -81,17 +81,33 @@ public class InstructionParsingUnitTest {
         assertEquals(sb.toString(), p.toString());
     }
 
+    @Test
+    public void chain_group() throws Exception {
+        p.parseLine("ch 11, Row 1 (RS):");
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.executeInstructions();
 
+        String[] r1 = {"","","","","","","","","dc","ch-3"};
+        String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
+        StringBuilder sb = new StringBuilder();
+        sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
+        assertEquals(sb.toString(), p.toString());
+    }
 
     @Test
     public void skip() throws Exception {
-        p.parseLine("ch 7");
-        p.parseLine("RowInstruction 1");
+        p.parseLine("ch 11");
+        p.parseLine("Row 1");
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
         p.parseLine("sk 3 ch");
         p.executeInstructions();
-        assertEquals("                         |dc   |sk   |sk   |sk   "
-                            + "\nsl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   ", p.toString());
+
+
+        String[] r1 = {"","","","","","sk","sk","sk","dc","ch-3"};
+        String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
+        StringBuilder sb = new StringBuilder();
+        sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
+        assertEquals(sb.toString(), p.toString());
     }
 
     @Test(expected = NoClassDefFoundError.class)
