@@ -153,6 +153,21 @@ public class InstructionParsingUnitTest {
         assertEquals(sb.toString(), p.toString());
     }
 
+    @Test
+    public void print_shell_expanded() throws Exception {
+        p.parseLine("ch 11");
+        p.parseLine("Row 1");
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.parseLine("*sk next 2 ch");
+        p.parseLine(" (3 dc, ch 1, 3 dc) in next ch");
+        p.executeInstructions();
+
+        String[] r1 = {"dc","dc","dc","ch","dc","dc","dc","dc","ch-3"};
+        StringBuilder sb = new StringBuilder();
+        sb.append(printExpected(r1));
+        assertEquals(sb.toString(), p.getRow(1).toStringExpanded());
+    }
+
     // --- Small Experiments ---
 
     @Test

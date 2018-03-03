@@ -9,14 +9,21 @@ public class ShellStitch extends Stitch {
 
     protected ShellStitch(String note) {
         this();
+        shell.next = null;
+        shell.prev = null;
         this.note = note;
     }
 
     public void addShellStitch(Stitch s) {
         if (shell == null) {
             shell = s;
+            return;
         }
-        shell.next = s;
-        s.prev = shell;
+        Stitch ins = shell;
+        while (ins.next() != null) {
+            ins = ins.next;
+        }
+        ins.next = s;
+        s.prev = ins;
     }
 }
