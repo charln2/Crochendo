@@ -60,7 +60,6 @@ public class Stitch {
     public String toString() {
 //        return String.format("%-5s|", name);
         return name;
-
     }
 
     public Stitch prev() {

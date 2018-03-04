@@ -19,7 +19,7 @@ public class DoubleCrochetInstruction extends Instruction {
         super.parse(rawInstruction);
         //"dc in 4th ch from hook (beginning ch counts as dc)"
         rawInstruction = rawInstruction.replaceAll("(?<=\\d)(st|nd|rd|th)", "");
-        rawInstruction = rawInstruction.replaceAll("(\\sin)?(\\snext)?", "");
+        rawInstruction = rawInstruction.replaceAll("(\\sin)", "");
         rawInstruction = rawInstruction.replaceAll("first", "1");
         Scanner sc = new Scanner(rawInstruction);
         if (sc.hasNextInt()) {
@@ -28,13 +28,14 @@ public class DoubleCrochetInstruction extends Instruction {
         sc.skip(abbr);
         if (sc.hasNextInt()) {
             ith = sc.nextInt();
-        }
-        if (sc.hasNext()) {
             anchorStitch = sc.next();
-        }
-
-        if (sc.findInLine("from hook") != null) {
-            ith--;
+            if (sc.findInLine("from hook") != null) {
+                ith--;
+            }
+        } else if (sc.hasNext() && sc.next().equals("next")) {
+//            sc.skip("next");
+            times = sc.nextInt();
+            anchorStitch = sc.next();
         }
     }
 }

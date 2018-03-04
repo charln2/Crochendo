@@ -20,7 +20,6 @@ public abstract class Instruction {
 
     abstract Instruction create();
 
-
     void parse(String rawInstruction) {
         rawInstruction = rawInstruction.replaceAll("(next|first)", "");
         Scanner sc = new Scanner(rawInstruction);
@@ -29,7 +28,6 @@ public abstract class Instruction {
         if (parens != null) {
             note = parens;
         }
-
     }
 
     public void execute(Pattern p) {
