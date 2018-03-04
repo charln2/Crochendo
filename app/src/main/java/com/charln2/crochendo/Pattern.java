@@ -126,7 +126,7 @@ public class Pattern {
                     if (x == null) throw new NoClassDefFoundError(
                             String.format("Could not find stitch '%s' in previous row", anchorTarget));
                 } while (x.name.equals("sk"));
-                if (anchorTarget == null || x.name.equalsIgnoreCase(anchorTarget)) {
+                if (anchorTarget == "" || x.name.equalsIgnoreCase(anchorTarget)) {
                     ith--;
                 }
             }

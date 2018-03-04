@@ -22,9 +22,11 @@ public class InstructionFactory {
         return i;
     }
 
-    static Instruction fetchInstruction(String rawInstruction) throws InstantiationException {
+    private static Instruction fetchInstruction(String rawInstruction) throws InstantiationException {
         StringBuilder sb = new StringBuilder();
         Scanner sc = new Scanner(rawInstruction);
+
+        Instruction instruc = null;
 
         //todo: refactor D.R.Y.
         // check 1: match stitches exactly
@@ -33,7 +35,7 @@ public class InstructionFactory {
             if (sc.hasNext()) {
                 sb.append(sc.next());
                 if (stitchInstructions.containsKey(sb.toString())) {
-                    return stitchInstructions.get(sb.toString()).create();
+                    instruc = stitchInstructions.get(sb.toString()).create();
                 }
             }
         }
@@ -41,12 +43,13 @@ public class InstructionFactory {
         // in a more brute-force way
         for(String s : specialCaseInstructions.keySet()) {
             if (rawInstruction.startsWith(s)) {
-                return specialCaseInstructions.get(s).create();
+                instruc = specialCaseInstructions.get(s).create();
             }
         }
+        if (instruc == null) throw new InstantiationException(
+             String.format("No existing instruction for \"%s\"", rawInstruction));
 
-        throw new InstantiationException(
-                String.format("No existing instruction for \"%s\"", rawInstruction));
+        return instruc;
     }
 
     static HashMap<String,Instruction> stitchInstructions = new HashMap<String, Instruction>() {{
@@ -54,6 +57,9 @@ public class InstructionFactory {
         put("row", new RowInstruction());
         put("dc", new DoubleCrochetInstruction());
         put("sk", new SkipInstruction());
+        put("sk", new SkipInstruction());
+        //todo: turn
+        put("turn", new TurnInstruction());
     }};
     static HashMap<String,Instruction> specialCaseInstructions = new HashMap<String, Instruction>() {{
         put("sl st", new SlipStitchInstruction());
@@ -61,7 +67,6 @@ public class InstructionFactory {
         put("*", new HoldInstruction());
         //todo: shell instruction
         put("(", new ShellInstruction());
-        //todo: turn
         //todo: chain group
     }};
 }

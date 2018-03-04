@@ -187,6 +187,25 @@ public class InstructionParsingUnitTest {
 
     }
 
+    @Test
+    public void turn() throws Exception {
+        p.parseLine("ch 11");
+        p.parseLine("Row 1");
+        p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
+        p.parseLine("*sk next 2 ch");
+        p.parseLine(" (3 dc, ch 1, 3 dc) in next ch");
+        p.parseLine(" sk next 2 ch");
+        p.parseLine("dc in next 2 ch");
+        p.parseLine("turn");
+        p.executeInstructions();
+
+        String[] r1 = {"turn","dc","dc","sk","sk","^^^","sk","sk","dc","ch-3"};
+        String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
+        StringBuilder sb = new StringBuilder();
+        sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
+        assertEquals(sb.toString(), p.toString());
+    }
+
     // --- Small Experiments ---
 
     @Test
