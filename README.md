@@ -22,7 +22,7 @@ Any scarf viewed stitch-by-stitch can be seen as a list of instructions executed
 ### Code Organization:
 The architecture takes an Object-Oriented approach. A UML class diagram can be seen below. Each object's operations attempt to maximize cohesion and minimize coupling. Pattern objects (comprised of Rows of Stitch objects) are created by invoking a queue of Instruction objects (parsed and constructed via the Factory Method Design Pattern). Each Instruction object overrides methods to parse and execute raw instructions. After each Instruction is executed, they are placed into a list of processed Instructions for potential reuse. Organizing the code for constructing a Pattern object in this linear manner mirrors closely to how crochet patterns are constructed by-hand in the real world.
  
-![Crochendo UML Class Diagram](https://github.com/charln2/Crochendo/blob/master/Crochendo_UML.png")
+![Crochendo UML Class Diagram](https://github.com/charln2/Crochendo/blob/master/Crochendo_UML.png "Crochendo UML Class Diagram")
 ## Approach
 After much brainstorming and research, a Test-Driven, Behavior-Driven Development approach was taken for this program. Each newly introduced test was ran alongside all existing test cases to see what refactoring needed to be done.
 Initial test cases were derived through instructions of an existing scarf with simple instructions, listed below.
@@ -37,7 +37,7 @@ Since stitch counts can change on a row-by-row basis, causing alignment of stitc
 
 ### Ambiguous decisions
 As with any language, sometimes there can be multiple ways of saying the same thing, such as the "dc in 4th ch from hook" instruction when starting the first row after a series of chains.  There is an implied "ch-3" group on the new row made up of the skipped chains. The program makes this implicit conversion if detected, as it is a recurring pattern in the following rows.
-![Chain Group Case](https://github.com/charln2/Crochendo/blob/master/chain_group_case.png")
+![Chain Group Case](https://github.com/charln2/Crochendo/blob/master/chain_group_case.png "Chain Group Case")
 
 ## Aesthetic/ Themes
 Crochendo's aesthetic is meant to be friendly and easy to use, resulting in a pastel teal color palette with red accents to invoke calm and focus. The obvious pun with "crescendo" being a gradual rise in loudness in music, is to act as a metaphor for slowly building a big(loud) piece of work from a series small(quiet) instructions. Plus, having a mascot bunny music conductor with a crochet hook in place of a conductor's wand would simply be adorable.
