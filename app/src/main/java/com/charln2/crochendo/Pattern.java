@@ -210,4 +210,16 @@ public class Pattern {
     public void hold(String key) {
         hold.put(key, processed.size()+1); // instruction after hold
     }
+
+    public int iLastProcess() {
+        return processed.size()-1;
+    }
+
+    public ArrayList<Instruction> copyInstructions(String key) {
+        ArrayList<Instruction> instructions = new ArrayList<>();
+        for(int i = hold.get(key); i < processed.size(); i++) {
+            instructions.add(processed.get(i));
+        }
+        return instructions;
+    }
 }

@@ -68,4 +68,14 @@ public class Stitch {
     public Stitch next() {
         return next;
     }
+
+    public int countSpaces() {
+        int i = 0;
+        Stitch counter = this;
+        while (counter.prev != null) {
+            i++;
+            counter = counter.prev;
+        }
+        return i;
+    }
 }

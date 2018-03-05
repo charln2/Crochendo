@@ -64,6 +64,7 @@ public class InstructionFactory {
         put("sl st", new SlipStitchInstruction());
         //todo: turn
         put("turn", new TurnInstruction());
+        put("repeat", new RepeatInstruction());
     }};
     static HashMap<String,Instruction> specialCaseInstructions = new HashMap<String, Instruction>() {{
         //todo: hold
