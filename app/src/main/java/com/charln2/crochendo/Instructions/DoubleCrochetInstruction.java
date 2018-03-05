@@ -3,9 +3,8 @@ package com.charln2.crochendo.Instructions;
 import java.util.Scanner;
 
 
-
-public class DoubleCrochetInstruction extends Instruction {
-    public DoubleCrochetInstruction() {
+class DoubleCrochetInstruction extends Instruction {
+    DoubleCrochetInstruction() {
         abbr = "dc";
     }
 

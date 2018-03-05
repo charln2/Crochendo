@@ -2,12 +2,10 @@ package com.charln2.crochendo.Instructions;
 
 import com.charln2.crochendo.Pattern;
 
-/**
- * Created by charl on 3/3/2018.
- */
 
-public class HoldInstruction extends Instruction {
-    String key;
+class HoldInstruction extends Instruction {
+    private String key;
+
     @Override
     Instruction create() {
         return new HoldInstruction();

@@ -3,15 +3,14 @@ package com.charln2.crochendo.Instructions;
 import java.util.Scanner;
 
 
-
-public class SkipInstruction extends Instruction {
-    SkipInstruction() {
-        abbr = "sk";
-    }
-
+class SkipInstruction extends Instruction {
     @Override
     Instruction create() {
         return new SkipInstruction();
+    }
+
+    SkipInstruction() {
+        abbr = "sk";
     }
 
     @Override

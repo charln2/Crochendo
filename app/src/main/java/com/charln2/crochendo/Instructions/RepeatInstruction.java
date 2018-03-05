@@ -5,18 +5,15 @@ import com.charln2.crochendo.Pattern;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * Created by charl on 3/4/2018.
- */
-
 public class RepeatInstruction extends Instruction {
-    String holdName;
+    private String holdName;
+
     @Override
     Instruction create() {
         return new RepeatInstruction();
     }
 
-    public RepeatInstruction() {
+    RepeatInstruction() {
         abbr = "repeat";
     }
 
@@ -27,12 +24,11 @@ public class RepeatInstruction extends Instruction {
         sc.skip(".*from");
         holdName = sc.next();
 //        to = sc.next();
+        // findInLine("across")
     }
 
     @Override
     public void execute(Pattern p) {
-        //copy specific instructions from
-        //Pattern method to get slice if processed list from index i?
         ArrayList<Instruction> copy = p.copyInstructionsFrom(holdName);
         int spaces = p.getX().countSpaces();
         int stitchCount = 0;

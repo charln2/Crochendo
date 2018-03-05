@@ -7,7 +7,7 @@ import com.charln2.crochendo.Stitch;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ShellInstruction extends Instruction {
+class ShellInstruction extends Instruction {
     private ArrayList<String> stitchNames;
     private ArrayList<Integer> stitchCounts;
 
@@ -16,23 +16,6 @@ public class ShellInstruction extends Instruction {
         return new ShellInstruction();
     }
 
-    //!assumption: sl st or 2-worded stitches not included in shell; always 2 args
-    private void extractShell(String parens) {
-        stitchNames = new ArrayList<>();
-        stitchCounts = new ArrayList<>();
-        // (3 dc, ch 1, 3 dc)
-//        parens = parens.replaceAll("[()]", "");
-        parens = parens.replaceAll("[()]","");
-        Scanner sc = new Scanner(parens);
-        sc.useDelimiter(",\\s*|\\s+");
-        while (sc.hasNext()) {
-            if (sc.hasNextInt()) {
-                stitchCounts.add(sc.nextInt());
-            } else {
-                stitchNames.add(sc.next());
-            }
-        }
-    }
     @Override
     void parse(String rawInstruction) {
         super.parse(rawInstruction);
@@ -52,14 +35,31 @@ public class ShellInstruction extends Instruction {
     @Override
     protected Stitch attach(Pattern p) {
         ShellStitch shell = new ShellStitch();
-        for(int i = 0; i < stitchNames.size(); i++) {
+        for (int i = 0; i < stitchNames.size(); i++) {
             String stitchName = stitchNames.get(i);
             int count = stitchCounts.get(i);
-            for(int j = 0; j < count; j++) {
+            for (int j = 0; j < count; j++) {
                 shell.addShellStitch(new Stitch(stitchName));
             }
         }
         p.add(shell);
         return shell;
+    }
+
+    //!assumption: sl st or any 2+ word stitches not in shell; always 2 args
+    private void extractShell(String parens) {
+        stitchNames = new ArrayList<>();
+        stitchCounts = new ArrayList<>();
+        // (3 dc, ch 1, 3 dc)
+        parens = parens.replaceAll("[()]", "");
+        Scanner sc = new Scanner(parens);
+        sc.useDelimiter(",\\s*|\\s+");
+        while (sc.hasNext()) {
+            if (sc.hasNextInt()) {
+                stitchCounts.add(sc.nextInt());
+            } else {
+                stitchNames.add(sc.next());
+            }
+        }
     }
 }
