@@ -23,6 +23,7 @@ public class Pattern {
     ArrayList<Row> rows;
     int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
+    private ArrayList<Instruction> processed = new ArrayList<>();
     public HashMap<String, Stitch> hold = new HashMap<>();
     private boolean rsIsOdd = true;
 
@@ -64,7 +65,9 @@ public class Pattern {
 
     void executeInstructions() {
         while (!qInstructions.isEmpty()) {
-            qInstructions.poll().execute(this);
+            Instruction i = qInstructions.poll();
+            i.execute(this);
+            processed.add(i);
         }
     }
 

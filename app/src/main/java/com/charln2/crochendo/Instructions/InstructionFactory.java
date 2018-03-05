@@ -33,17 +33,20 @@ public class InstructionFactory {
         // "sl st" is 2 words in length. Potential for
         for(int i = 0; i < 2; i++) {
             if (sc.hasNext()) {
-                sb.append(sc.next());
-                if (stitchInstructions.containsKey(sb.toString())) {
-                    instruc = stitchInstructions.get(sb.toString()).create();
+                sb.append(sc.next()+" ");
+                if (stitchInstructions.containsKey(sb.toString().trim())) {
+                    instruc = stitchInstructions.get(sb.toString().trim()).create();
+                    break;
                 }
             }
         }
-        // check 2: if check 1 fails, check for special case
-        // in a more brute-force way
-        for(String s : specialCaseInstructions.keySet()) {
-            if (rawInstruction.startsWith(s)) {
-                instruc = specialCaseInstructions.get(s).create();
+        if (instruc == null) {
+            // check 2: if check 1 fails, check for special case
+            // in a more brute-force way
+            for(String s : specialCaseInstructions.keySet()) {
+                if (rawInstruction.startsWith(s)) {
+                    instruc = specialCaseInstructions.get(s).create();
+                }
             }
         }
         if (instruc == null) throw new InstantiationException(
@@ -58,11 +61,11 @@ public class InstructionFactory {
         put("dc", new DoubleCrochetInstruction());
         put("sk", new SkipInstruction());
         put("sk", new SkipInstruction());
+        put("sl st", new SlipStitchInstruction());
         //todo: turn
         put("turn", new TurnInstruction());
     }};
     static HashMap<String,Instruction> specialCaseInstructions = new HashMap<String, Instruction>() {{
-        put("sl st", new SlipStitchInstruction());
         //todo: hold
         put("*", new HoldInstruction());
         //todo: shell instruction
