@@ -7,12 +7,8 @@ import com.charln2.crochendo.Stitch;
 
 import java.util.Scanner;
 
-/**
- * Created by Ripley on 2/22/2018.
- */
-
 public abstract class Instruction {
-    protected String abbr = "MISSING ABBREV";
+    String abbr = "MISSING ABBREV";
     String note = "";
     int times = 1;
     String anchorStitch;
@@ -33,16 +29,12 @@ public abstract class Instruction {
     public void execute(Pattern p) {
         for (int i = 0; i < times; i++) {
             Stitch s = attach(p);
-            anchor(p,s);
+            anchor(p, s);
         }
         if (note != null) {
             executeSecondaryInstructions(p);
         }
     }
-    // () check?
-    // @Override
-    // instantiate
-        // appendShell
 
     // move/anchor
     protected Stitch attach(Pattern p) {
@@ -51,10 +43,11 @@ public abstract class Instruction {
         p.add(s);
         return s;
     }
-    protected void anchor(Pattern p, Stitch s) {
+
+    private void anchor(Pattern p, Stitch st) {
         if (anchorStitch != null) {
             p.moveX(ith, anchorStitch);
-            p.addAnchor(s);
+            p.addAnchor(st);
         }
     }
 
