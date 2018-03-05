@@ -114,6 +114,8 @@ public class InstructionParsingUnitTest {
 
     @Test
     public void hold_skip() throws Exception {
+        // row 1
+        // sl st
         p.parseLine("ch 11");
         p.parseLine("Row 1");
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
@@ -126,8 +128,8 @@ public class InstructionParsingUnitTest {
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
         assertEquals(sb.toString(), p.toString());
+        assertSame(6, p.hold.get("*"));
         Stitch check = p.rows.get(0).tail.prev;
-        assertSame(check, p.hold.get("*"));
         int i = 0;
         while (check != null) {
             i++;

@@ -21,6 +21,6 @@ public class HoldInstruction extends Instruction {
 
     @Override
     public void execute(Pattern p) {
-        p.hold.put(key, p.getX().prev());
+        p.hold(key);
     }
 }

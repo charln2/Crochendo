@@ -24,7 +24,7 @@ public class Pattern {
     int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
     private ArrayList<Instruction> processed = new ArrayList<>();
-    public HashMap<String, Stitch> hold = new HashMap<>();
+    public HashMap<String, Integer> hold = new HashMap<>();
     private boolean rsIsOdd = true;
 
     // default constructor for testing purposes
@@ -204,5 +204,10 @@ public class Pattern {
             throw new IndexOutOfBoundsException(String.format("Row %d not found", i));
         }
         return rows.get(i);
+    }
+
+    // ? breaks factory method a bit. refactor?
+    public void hold(String key) {
+        hold.put(key, processed.size()+1); // instruction after hold
     }
 }
