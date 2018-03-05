@@ -9,10 +9,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements ExtractWebpageAsyncTask.AsyncResponse{
+public class MainActivity extends AppCompatActivity implements ExtractWebpageAsyncTask.AsyncResponse {
     public static final String placeholderWebsite = "https://hooked-on-crafting.com/2013/09/10/bellflower-infinity-scarf-free-pattern/";
     private static final String TAG = "MainActivity";
-    TextView tvResult;
+    private TextView tvResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements ExtractWebpageAsy
     @Override
     public void callback(ArrayList<String> list) {
         StringBuilder sb = new StringBuilder();
-        for(String s : list) {
+        for (String s : list) {
             Log.i(TAG, s);
             sb.append(s).append("\n---\n");
         }
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements ExtractWebpageAsy
         }
 //        deleteFile("patterntest");
     }
-    void flush() {
 
+    private void flush() {
+        // todo: method for clearing rawInstructions from cache.
     }
 }

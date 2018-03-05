@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-
 public class ExtractWebpageAsyncTask extends AsyncTask<String, Void, ArrayList<String>> {
     private static final String TAG = ExtractWebpageAsyncTask.class.getSimpleName();
 
@@ -40,11 +39,11 @@ public class ExtractWebpageAsyncTask extends AsyncTask<String, Void, ArrayList<S
             Elements elements = doc.select("div:has(p:contains(sl st)) > p");
 
 //            File f = getTempFile(cxt, MainActivity.placeholderWebsite);
-            FileOutputStream fOut = cxt.openFileOutput("patterntest",Context.MODE_PRIVATE);
+            FileOutputStream fOut = cxt.openFileOutput("patterntest", Context.MODE_PRIVATE);
             list.add(title);
             for (Element e : elements) {
                 list.add(e.text());
-                fOut.write((e.text()+"\n").getBytes());
+                fOut.write((e.text() + "\n").getBytes());
             }
 
             fOut.close();
@@ -54,20 +53,23 @@ public class ExtractWebpageAsyncTask extends AsyncTask<String, Void, ArrayList<S
             list.add(e.getMessage());
 //                    sb.add("Error: ").add(e.getMessage()).add('\n');
         }
-
-
-
         return list;
     }
-    private File getTempFile(Context context, String url) {
+
+    @Override
+    protected void onPostExecute(ArrayList<String> strings) {
+        delegate.callback(strings);
+    }
+
+    private File getTempFile(Context cxt, String url) {
         File file = null;
         try {
 //            String fileName = Uri.parse(url).getLastPathSegment();
             String fileName = "patterntest";
-            File patternCache = new File(context.getCacheDir(), "patterns");
+            File patternCache = new File(cxt.getCacheDir(), "patterns");
             patternCache.mkdir();
             file = File.createTempFile(fileName, null, patternCache);
-            for (String s : cxt.fileList()) {
+            for (String s : this.cxt.fileList()) {
                 Log.d(TAG, "getTempFile: " + s);
             }
         } catch (IOException e) {
@@ -75,9 +77,5 @@ public class ExtractWebpageAsyncTask extends AsyncTask<String, Void, ArrayList<S
             e.printStackTrace();
         }
         return file;
-    }
-    @Override
-    protected void onPostExecute(ArrayList<String> strings) {
-        delegate.callback(strings);
     }
 }

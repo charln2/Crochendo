@@ -5,13 +5,15 @@ package com.charln2.crochendo;
  */
 
 public class ChainGroup extends Stitch {
-    int n;
-    public ChainGroup(int n) {
-        super("ch-"+n);
-        this.n = n;
+    private int numChains;
+
+    public ChainGroup(int numChains) {
+        super("ch-" + numChains);
+        this.numChains = numChains;
     }
+
     @Override
     public String toString() {
-        return String.format("ch-%d",n);
+        return String.format("ch-%d", numChains);
     }
 }

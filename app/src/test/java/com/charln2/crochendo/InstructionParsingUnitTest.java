@@ -1,7 +1,6 @@
 package com.charln2.crochendo;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Scanner;
@@ -133,7 +132,7 @@ public class InstructionParsingUnitTest {
         int i = 0;
         while (check != null) {
             i++;
-            check = check.next();
+            check = check.next;
         }
         assertEquals(2, i);
     }

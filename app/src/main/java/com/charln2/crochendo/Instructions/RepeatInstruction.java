@@ -33,7 +33,7 @@ public class RepeatInstruction extends Instruction {
     public void execute(Pattern p) {
         //copy specific instructions from
         //Pattern method to get slice if processed list from index i?
-        ArrayList<Instruction> copy = p.copyInstructions(holdName);
+        ArrayList<Instruction> copy = p.copyInstructionsFrom(holdName);
         int spaces = p.getX().countSpaces();
         int stitchCount = 0;
         for (Instruction i : copy) {

@@ -5,10 +5,12 @@ package com.charln2.crochendo;
  */
 
 public class Row {
-    boolean ltr = true;
     Stitch head, tail = null;
-    int index;
-    public Row() {}
+    private boolean ltr = true;
+
+    public Row() {
+    }
+
     public Row(boolean ltr) {
         this.ltr = ltr;
     }
@@ -31,7 +33,7 @@ public class Row {
             }
         }
         if (sb.length() > 0) {
-            sb.setLength(sb.length()-1); // trim last "|"
+            sb.setLength(sb.length() - 1); // trim last "|"
         }
         return sb.toString();
     }
@@ -42,7 +44,7 @@ public class Row {
         if (ltr) {
             Stitch cur = head;
             while (cur != null) {
-                if (cur.name != "sk") {
+                if (!cur.name.equals("sk")) {
                     if (cur instanceof ShellStitch) {
                         Stitch shell = ((ShellStitch) cur).shell;
                         while (shell != null) {
@@ -58,7 +60,7 @@ public class Row {
         } else {
             Stitch cur = tail;
             while (cur != null) {
-                if (cur.name != "sk") {
+                if (!cur.name.equals("sk")) {
                     if (cur instanceof ShellStitch) {
                         Stitch shell = ((ShellStitch) cur).shell;
                         while (shell != null) {
@@ -73,23 +75,22 @@ public class Row {
             }
         }
         if (sb.length() > 0) {
-            sb.setLength(sb.length()-1); // trim last "|"
+            sb.setLength(sb.length() - 1); // trim last "|"
         }
         return sb.toString();
     }
 
-    void add(Stitch s) {
+    void add(Stitch st) {
         if (head == null) {
-            head = tail = s;
+            head = tail = st;
             return;
         }
-        s.prev = tail;
-        tail.next = s;
+        st.prev = tail;
+        tail.next = st;
         tail = tail.next;
     }
 
     public Stitch pop() throws IllegalAccessException {
-        Stitch ret = tail;
         if (tail == null) throw new IllegalAccessException("Row is empty");
 
         tail = tail.prev;
@@ -99,10 +100,7 @@ public class Row {
         return tail;
     }
 
-    public Stitch peekLast() throws IllegalAccessException {
-        if (tail == null) {
-            throw new IllegalAccessException("Row is empty");
-        }
+    public Stitch peekLast() {
         return tail;
     }
 

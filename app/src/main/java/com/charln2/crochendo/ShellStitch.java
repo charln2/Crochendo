@@ -1,29 +1,27 @@
 package com.charln2.crochendo;
 
 public class ShellStitch extends Stitch {
-    Stitch shell;
+    Stitch shell = null;
 
     public ShellStitch() {
         super("^^^");
     }
 
-    protected ShellStitch(String note) {
+    public ShellStitch(String note) {
         this();
-        shell.next = null;
-        shell.prev = null;
         this.note = note;
     }
 
-    public void addShellStitch(Stitch s) {
+    public void addShellStitch(Stitch st) {
         if (shell == null) {
-            shell = s;
+            shell = st;
             return;
         }
         Stitch ins = shell;
-        while (ins.next() != null) {
+        while (ins.next != null) {
             ins = ins.next;
         }
-        ins.next = s;
-        s.prev = ins;
+        ins.next = st;
+        st.prev = ins;
     }
 }
