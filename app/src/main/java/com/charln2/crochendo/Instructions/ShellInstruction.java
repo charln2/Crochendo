@@ -1,7 +1,7 @@
 package com.charln2.crochendo.Instructions;
 
 import com.charln2.crochendo.Pattern;
-import com.charln2.crochendo.ShellStitch;
+import com.charln2.crochendo.StitchGroup;
 import com.charln2.crochendo.Stitch;
 
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ class ShellInstruction extends Instruction {
 
     @Override
     protected Stitch attach(Pattern p) {
-        ShellStitch shell = new ShellStitch();
+        StitchGroup shell = new StitchGroup();
         for (int i = 0; i < stitchNames.size(); i++) {
             String stitchName = stitchNames.get(i);
             int count = stitchCounts.get(i);

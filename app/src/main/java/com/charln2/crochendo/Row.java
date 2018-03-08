@@ -8,75 +8,49 @@ public class Row {
     Stitch head, tail = null;
     private boolean ltr = true;
 
-    public Row() {
-    }
+    public Row() { }
 
-    public Row(boolean ltr) {
+    Row(boolean ltr) {
         this.ltr = ltr;
     }
 
     @Override
     public String toString() {
+        if (isEmpty()) return "";
+
         StringBuilder sb = new StringBuilder();
-        // todo: refactor, D.R.Y.
-        if (ltr) {
-            Stitch cur = head;
-            while (cur != null) {
-                sb.append(String.format("%-5s|", cur.toString()));
-                cur = cur.next;
-            }
-        } else {
-            Stitch cur = tail;
-            while (cur != null) {
-                sb.append(String.format("%-5s|", cur.toString()));
-                cur = cur.prev;
-            }
+
+        Stitch cur = (ltr) ? head : tail;
+        while (cur != null) {
+            sb.append(String.format("%-5s|", cur.toString()));
+            cur = ltr ? cur.next : cur.prev;
         }
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1); // trim last "|"
-        }
+
+        sb.setLength(sb.length() - 1); // trim last "|"
+
         return sb.toString();
     }
 
     public String toStringExpanded() {
+        if (isEmpty()) return "";
+
         StringBuilder sb = new StringBuilder();
-        // todo: refactor, D.R.Y.
-        if (ltr) {
-            Stitch cur = head;
-            while (cur != null) {
-                if (!cur.name.equals("sk")) {
-                    if (cur instanceof ShellStitch) {
-                        Stitch shell = ((ShellStitch) cur).shell;
-                        while (shell != null) {
-                            sb.append(String.format("%-5s|", shell.toString()));
-                            shell = shell.next;
-                        }
-                    } else {
-                        sb.append(String.format("%-5s|", cur.toString()));
+
+        Stitch cur = ltr ? head : tail;
+        while (cur != null) {
+            if (!cur.name.equalsIgnoreCase("sk")) {
+                if (cur instanceof StitchGroup) {
+                    for (Stitch st : ((StitchGroup) cur).getGroupList(ltr)) {
+                        sb.append(String.format("%-5s|", st.toString()));
                     }
+                } else {
+                    sb.append(String.format("%-5s|", cur.toString()));
                 }
-                cur = cur.next;
             }
-        } else {
-            Stitch cur = tail;
-            while (cur != null) {
-                if (!cur.name.equals("sk")) {
-                    if (cur instanceof ShellStitch) {
-                        Stitch shell = ((ShellStitch) cur).shell;
-                        while (shell != null) {
-                            sb.append(String.format("%-5s|", shell.toString()));
-                            shell = shell.next;
-                        }
-                    } else {
-                        sb.append(String.format("%-5s|", cur.toString()));
-                    }
-                }
-                cur = cur.prev;
-            }
+            cur = ltr ? cur.next : cur.prev;
         }
-        if (sb.length() > 0) {
-            sb.setLength(sb.length() - 1); // trim last "|"
-        }
+
+        sb.setLength(sb.length() - 1); // trim last "|"
         return sb.toString();
     }
 
