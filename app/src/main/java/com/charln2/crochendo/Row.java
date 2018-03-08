@@ -39,7 +39,7 @@ public class Row {
         Stitch cur = ltr ? head : tail;
         while (cur != null) {
             if (!cur.name.equalsIgnoreCase("sk")) {
-                if (cur instanceof StitchGroup) {
+                if (cur instanceof StitchGroup && !((StitchGroup)cur).isChainGroup()) {
                     for (Stitch st : ((StitchGroup) cur).getGroupList(ltr)) {
                         sb.append(String.format("%-5s|", st.toString()));
                     }

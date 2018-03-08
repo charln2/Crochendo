@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class StitchGroup extends Stitch {
     private ArrayList<Stitch> stitchGroup;
+
+    public boolean isChainGroup() {
+        return ischainGroup;
+    }
+
     private boolean ischainGroup = true;
 
     public StitchGroup() {
@@ -16,7 +21,7 @@ public class StitchGroup extends Stitch {
         this.note = note;
     }
 
-    public void addShellStitch(Stitch st) {
+    public void add(Stitch st) {
         if (ischainGroup && !st.name.equalsIgnoreCase("ch")) {
             ischainGroup = false;
         }

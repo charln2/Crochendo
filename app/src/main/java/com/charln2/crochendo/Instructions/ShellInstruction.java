@@ -39,7 +39,7 @@ class ShellInstruction extends Instruction {
             String stitchName = stitchNames.get(i);
             int count = stitchCounts.get(i);
             for (int j = 0; j < count; j++) {
-                shell.addShellStitch(new Stitch(stitchName));
+                shell.add(new Stitch(stitchName));
             }
         }
         p.add(shell);

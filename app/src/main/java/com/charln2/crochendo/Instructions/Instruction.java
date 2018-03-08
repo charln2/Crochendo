@@ -1,11 +1,12 @@
 package com.charln2.crochendo.Instructions;
 
-import com.charln2.crochendo.ChainGroup;
 import com.charln2.crochendo.Pattern;
 import com.charln2.crochendo.Row;
 import com.charln2.crochendo.Stitch;
+import com.charln2.crochendo.StitchGroup;
 
 import java.util.Scanner;
+import java.util.Stack;
 
 public abstract class Instruction {
     String abbr = "MISSING ABBREV";
@@ -55,18 +56,21 @@ public abstract class Instruction {
         if (note.contains("(beginning ch counts as")) {
             Stitch x = p.getX();
             Row row = p.getRow(-2);
-            int chCount = 0;
+            Stack<Stitch> toAdd = new Stack<>();
             try {
                 while (row.peekLast() != x) {
-                    row.pop();
-                    chCount++;
+                    toAdd.push(row.pop());
                 }
 
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            ChainGroup cg = new ChainGroup(chCount);
-            p.getRow(-1).prepend(cg);
+            StitchGroup sg = new StitchGroup();
+            while (!toAdd.isEmpty()) {
+                sg.add(toAdd.pop());
+            }
+
+            p.getRow(-1).prepend(sg);
         }
     }
 }
