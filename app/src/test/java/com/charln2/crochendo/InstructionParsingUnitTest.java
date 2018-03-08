@@ -227,6 +227,25 @@ public class InstructionParsingUnitTest {
         assertEquals(sb.toString(), p.toString());
     }
 
+    @Test
+    public void row2() throws Exception {
+        p.parseLine("Row 2\n" +
+                " Ch 3 (counts as dc here and throughout)\n" +
+                " sk first dc\n" +
+                " dc in next dc\n" +
+                " *sk next 2 dc\n" +
+                " dc in next dc\n" +
+                " ch 1\n" +
+                " (dc, ch 1, dc) in next ch-1 sp\n" +
+                " ch 1\n" +
+                " dc in next dc\n" +
+                " sk next 2 dc\n" +
+                " dc in next 2 dc\n" +
+                " repeat from * across\n" +
+                " turn");
+        p.executeInstructions();
+    }
+
     // --- Small Experiments ---
 
     @Test
@@ -251,7 +270,7 @@ public class InstructionParsingUnitTest {
                 "Repeat Rows 2–4 until piece measures about 58″/147.5cm. Do not fasten off.";
         Scanner sc = new Scanner(str);
         // commas note enclosed in parentheses or matching list of specific known delimiters
-        sc.useDelimiter("(,(?![^()]*+\\)))|[:;.—]");
+        sc.useDelimiter("(,(?![^()]*+\\)))|[:;.]");
         while (sc.hasNext()) {
             System.out.println(sc.next());
         }
