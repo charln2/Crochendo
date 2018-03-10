@@ -33,13 +33,6 @@ public class Stitch {
         return name;
     }
 
-    public Stitch prev() {
-        return prev;
-    }
-//    public Stitch next() {
-//        return next;
-//    }
-
     public int countSpaces() {
         int i = 0;
         Stitch counter = this;
@@ -48,5 +41,14 @@ public class Stitch {
             counter = counter.prev;
         }
         return i;
+    }
+
+    Stitch pop() {
+        if (this.prev != null) {
+            this.prev.next = null;
+            this.prev = null;
+        }
+        this.next = null;
+        return this;
     }
 }
