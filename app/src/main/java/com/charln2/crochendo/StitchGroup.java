@@ -5,36 +5,33 @@ import java.util.ArrayList;
 public class StitchGroup extends Stitch {
     private ArrayList<Stitch> stitchGroup;
 
-    public boolean isChainGroup() {
-        return ischainGroup;
-    }
-
-    private boolean ischainGroup = true;
-
     public StitchGroup() {
         super("^^^");
         stitchGroup = new ArrayList<>();
     }
+
 
     public StitchGroup(String note) {
         this();
         this.note = note;
     }
 
-    public void add(Stitch st) {
-        if (ischainGroup && !st.name.equalsIgnoreCase("ch")) {
-            ischainGroup = false;
-        }
-        stitchGroup.add(st);
+    @Override
+    Stitch nextAnchorStitch() {
+        return stitchGroup.get(stitchGroup.size()-1);
     }
 
-    @Override
-    public String toString() {
-        if (ischainGroup) {
-            return String.format("ch-%d", stitchGroup.size());
+    public void add(Stitch st) {
+        stitchGroup.add(st);
+
+        if (stitchGroup.size() == 1) {
+            st.prev = this.prev;
         } else {
-            return super.toString();
+            st.prev = stitchGroup.get(stitchGroup.size()-2);
+            st.prev.next = st;
         }
+
+        st.next = this.next;
     }
 
     Stitch[] getGroupList(boolean ltr) {

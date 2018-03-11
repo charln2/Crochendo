@@ -15,6 +15,10 @@ public class Stitch {
         this.note = null;
     }
 
+    Stitch nextAnchorStitch() {
+        return this.prev;
+    }
+
     // package private, so Pattern can instantiate
     public Stitch(String name, String note) {
         this(name);

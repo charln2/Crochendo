@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
 
 
 public class Pattern {
-    private Stitch x;
+    private Stitch anchorStitch;
     private int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
     private ArrayList<Instruction> processed = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Pattern {
         Scanner sc = new Scanner(line);
         // commas note enclosed in parentheses or matching list of specific known delimiters
         sc.useDelimiter("(,(?![^()]*+\\)))|[:;.]");
-        //<stitch, times, in x, note>
+        //<stitch, times, in anchorStitch, note>
 
         while (sc.hasNext()) {
             String rawInstruction = sc.next();
@@ -101,19 +101,26 @@ public class Pattern {
     public void moveX(int ith, String anchorTarget) {
         while (ith > 0) {
             do {
-                x = x.prev;
-                if (x == null) throw new NoClassDefFoundError(
-                        String.format("Could not find stitch '%s' in anchoring row", anchorTarget));
-            } while (x.name.equals("sk"));
-            if (anchorTarget == "" || x.name.equalsIgnoreCase(anchorTarget)) {
+                anchorStitch = anchorStitch.nextAnchorStitch();
+                if (anchorStitch == null)
+                    throw new NoClassDefFoundError(String.format("Could not find stitch '%s' in anchoring row", anchorTarget));
+            } while (anchorStitch.name.equals("sk")
+                    || anchorStitch instanceof StitchGroup
+                    );
+
+            if (anchorStitch.name.equals(anchorTarget) || anchorTarget.equals("")) {
                 ith--;
             }
         }
     }
 
+    void incrementX() {
+        if (anchorStitch == null) throw new IndexOutOfBoundsException("anchorStitch is null");
+    }
+
     public void startNewRow() {
         if (!rows.isEmpty()) {
-            x = rows.get(rows.size() - 1).tail;
+            anchorStitch = rows.get(rows.size() - 1).tail;
         }
 
         boolean printDirection = rows.size() % 2 == 0; // even: ltr, odd: rtl
@@ -148,11 +155,11 @@ public class Pattern {
     }
 
     public void addAnchor(Stitch st) {
-        x.addAnchor(st);
+        anchorStitch.addAnchor(st);
     }
 
-    public Stitch getX() {
-        return x;
+    public Stitch getAnchorStitch() {
+        return anchorStitch;
     }
 
     public Row getRow(int i) {

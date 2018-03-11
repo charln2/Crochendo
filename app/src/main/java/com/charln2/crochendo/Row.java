@@ -1,9 +1,5 @@
 package com.charln2.crochendo;
 
-/**
- * Created by Ripley on 3/1/2018.
- */
-
 public class Row {
     Stitch head, tail = null;
     private boolean ltr = true;
@@ -39,7 +35,7 @@ public class Row {
         Stitch cur = ltr ? head : tail;
         while (cur != null) {
             if (!cur.name.equalsIgnoreCase("sk")) {
-                if (cur instanceof StitchGroup && !((StitchGroup)cur).isChainGroup()) {
+                if (cur instanceof StitchGroup && !(cur instanceof ChainGroup)) {
                     for (Stitch st : ((StitchGroup) cur).getGroupList(ltr)) {
                         sb.append(String.format("%-5s|", st.toString()));
                     }

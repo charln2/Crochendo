@@ -1,5 +1,6 @@
 package com.charln2.crochendo.Instructions;
 
+import com.charln2.crochendo.ChainGroup;
 import com.charln2.crochendo.Pattern;
 import com.charln2.crochendo.Row;
 import com.charln2.crochendo.Stitch;
@@ -40,7 +41,7 @@ public abstract class Instruction {
     // move/anchor
     protected Stitch attach(Pattern p) {
         Stitch s = new Stitch(abbr);
-        // attatch to pattern
+        // attach to pattern
         p.add(s);
         return s;
     }
@@ -54,23 +55,18 @@ public abstract class Instruction {
 
     private void executeSecondaryInstructions(Pattern p) {
         if (note.contains("(beginning ch counts as")) {
-            Stitch x = p.getX();
+            Stitch x = p.getAnchorStitch();
             Row row = p.getRow(-2);
-            Stack<Stitch> toAdd = new Stack<>();
+            ChainGroup cg = new ChainGroup();
             try {
                 while (row.peekLast() != x) {
-                    toAdd.push(row.pop());
+                    row.pop();
+                    cg.add(1);
                 }
-
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            StitchGroup sg = new StitchGroup();
-            while (!toAdd.isEmpty()) {
-                sg.add(toAdd.pop());
-            }
-
-            p.getRow(-1).prepend(sg);
+            p.getRow(-1).prepend(cg);
         }
     }
 }
