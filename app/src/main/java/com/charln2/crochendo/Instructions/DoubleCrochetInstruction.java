@@ -27,14 +27,14 @@ class DoubleCrochetInstruction extends Instruction {
         sc.skip(abbr);
         if (sc.hasNextInt()) {
             ith = sc.nextInt();
-            anchorStitch = sc.next();
+            targetStitch = sc.next();
             if (sc.findInLine("from hook") != null) {
                 ith--;
             }
         } else if (sc.hasNext() && sc.next().equals("next")) {
 //            sc.skip("next");
             times = sc.nextInt();
-            anchorStitch = sc.next();
+            targetStitch = sc.next();
         }
     }
 }

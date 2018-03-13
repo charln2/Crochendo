@@ -3,7 +3,7 @@ package com.charln2.crochendo;
 import java.util.ArrayList;
 
 public class StitchGroup extends Stitch {
-    private ArrayList<Stitch> stitchGroup;
+    protected ArrayList<Stitch> stitchGroup;
 
     public StitchGroup() {
         super("^^^");
@@ -17,7 +17,7 @@ public class StitchGroup extends Stitch {
     }
 
     @Override
-    Stitch nextAnchorStitch() {
+    Stitch nextPort() {
         return stitchGroup.get(stitchGroup.size()-1);
     }
 
@@ -40,5 +40,9 @@ public class StitchGroup extends Stitch {
             ret[i] = (ltr) ? stitchGroup.get(i) : stitchGroup.get(j);
         }
         return ret;
+    }
+
+    public int size() {
+        return stitchGroup.size();
     }
 }

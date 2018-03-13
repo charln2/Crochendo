@@ -30,7 +30,7 @@ public class RepeatInstruction extends Instruction {
     @Override
     public void execute(Pattern p) {
         ArrayList<Instruction> copy = p.copyInstructionsFrom(holdName);
-        int spaces = p.getAnchorStitch().countSpaces();
+        int spaces = p.getPort().countSpaces();
         int stitchCount = 0;
         for (Instruction i : copy) {
             stitchCount += i.times;

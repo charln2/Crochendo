@@ -23,12 +23,12 @@ class SkipInstruction extends Instruction {
         super.parse(rawInstruction);
         rawInstruction = rawInstruction.replaceAll("\\s((first|next)\\s)", "");
         Scanner sc = new Scanner(rawInstruction);
-        sc.skip("sk"); // fixed. Accidentally parsed "sk" as anchorStitch.
+        sc.skip("sk"); // fixed. Accidentally parsed "sk" as targetStitch.
         if (sc.hasNextInt()) {
             times = sc.nextInt();
         }
         if (sc.hasNext()) {
-            anchorStitch = sc.next();
+            targetStitch = sc.next();
         }
     }
 }

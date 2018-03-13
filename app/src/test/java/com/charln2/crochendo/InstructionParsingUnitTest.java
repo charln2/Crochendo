@@ -31,13 +31,19 @@ public class InstructionParsingUnitTest {
         String[] expected = {"sl st"};
         assertEquals(printExpected(expected), p.toString());
     }
-
     @Test
     public void ch_11() throws Exception {
         p.parseLine("ch 11");
         p.executeInstructions();
-        String[] e = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
+        String[] e = {"sl st", "ch-11"};
         assertEquals(printExpected(e), p.toString());
+    }
+    @Test
+    public void ch_11_expanded() throws Exception {
+        p.parseLine("ch 11");
+        p.executeInstructions();
+        String[] e = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
+        assertEquals(printExpected(e), p.getRow(0).toStringExpanded());
     }
     @Test(expected = InstantiationException.class)
     public void nonexistent_instruction() throws Exception {
@@ -70,7 +76,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
     }
 
     @Test

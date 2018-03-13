@@ -8,6 +8,6 @@ class TurnInstruction extends Instruction {
 
     TurnInstruction() {
         abbr = "turn";
-        anchorStitch = "";
+        targetStitch = "";
     }
 }

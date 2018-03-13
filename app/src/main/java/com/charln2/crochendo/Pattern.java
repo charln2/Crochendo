@@ -17,7 +17,7 @@ import static android.content.ContentValues.TAG;
 
 
 public class Pattern {
-    private Stitch anchorStitch;
+    private Stitch port;
     private int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
     private ArrayList<Instruction> processed = new ArrayList<>();
@@ -65,7 +65,7 @@ public class Pattern {
         Scanner sc = new Scanner(line);
         // commas note enclosed in parentheses or matching list of specific known delimiters
         sc.useDelimiter("(,(?![^()]*+\\)))|[:;.]");
-        //<stitch, times, in anchorStitch, note>
+        //<stitch, times, in port, note>
 
         while (sc.hasNext()) {
             String rawInstruction = sc.next();
@@ -93,6 +93,9 @@ public class Pattern {
         }
     }
 
+    public Stitch peek() {
+        return getRow(-1).peekLast();
+    }
     public void add(Stitch st) {
         rows.get(rows.size() - 1).add(st);
         size++;
@@ -101,26 +104,26 @@ public class Pattern {
     public void moveX(int ith, String anchorTarget) {
         while (ith > 0) {
             do {
-                anchorStitch = anchorStitch.nextAnchorStitch();
-                if (anchorStitch == null)
+                port = port.nextPort();
+                if (port == null)
                     throw new NoClassDefFoundError(String.format("Could not find stitch '%s' in anchoring row", anchorTarget));
-            } while (anchorStitch.name.equals("sk")
-                    || anchorStitch instanceof StitchGroup
+            } while (port.name.equals("sk")
+                    || port instanceof StitchGroup
                     );
 
-            if (anchorStitch.name.equals(anchorTarget) || anchorTarget.equals("")) {
+            if (port.name.equals(anchorTarget) || anchorTarget.equals("")) {
                 ith--;
             }
         }
     }
 
     void incrementX() {
-        if (anchorStitch == null) throw new IndexOutOfBoundsException("anchorStitch is null");
+        if (port == null) throw new IndexOutOfBoundsException("port is null");
     }
 
     public void startNewRow() {
         if (!rows.isEmpty()) {
-            anchorStitch = rows.get(rows.size() - 1).tail;
+            port = rows.get(rows.size() - 1).tail;
         }
 
         boolean printDirection = rows.size() % 2 == 0; // even: ltr, odd: rtl
@@ -155,11 +158,11 @@ public class Pattern {
     }
 
     public void addAnchor(Stitch st) {
-        anchorStitch.addAnchor(st);
+        port.addAnchor(st);
     }
 
-    public Stitch getAnchorStitch() {
-        return anchorStitch;
+    public Stitch getPort() {
+        return port;
     }
 
     public Row getRow(int i) {
@@ -183,5 +186,45 @@ public class Pattern {
             instructions.add(processed.get(i));
         }
         return instructions;
+    }
+
+    String printRow(int n) {
+        StringBuilder sb = new StringBuilder();
+        int padding = 0;
+        if (!getRow(n).isLtr()) {
+            Stitch cur = getRow(n).tail;
+            int hanging = 0;
+            while (cur != null && cur.port == null) {
+                cur = cur.prev;
+            }
+            if (cur != null) {
+                cur = cur.port.prev;
+                while (cur != null) {
+                    padding++;
+                    cur = cur.prev;
+                }
+            }
+            padding -= hanging;
+        }
+        Row r1 = getRow(n);
+        Row r2 = (n-1 < 0) ? null : getRow(n-1);
+        if (r2 != null) {
+            if (r1.size() < r2.sizeExpanded()) {
+                for(int i = 0; i < padding; i++) {
+                    sb.append("     |");
+                }
+            }
+        }
+        sb.append(getRow(n).toString());
+        if (r2 != null) {
+            sb.append('\n');
+            if (r1.size() > r2.sizeExpanded()) {
+                for (int i = 0; i < Math.abs(padding); i++) {
+                    sb.append("     |");
+                }
+            }
+            sb.append(getRow(n-1).toStringExpanded());
+        }
+        return sb.toString();
     }
 }

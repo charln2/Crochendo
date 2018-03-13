@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Stitch {
     String name;
-    Stitch prev, next;
+    Stitch prev, next, port;
     ArrayList<Stitch> anchors;
     String note;
 
@@ -15,8 +15,19 @@ public class Stitch {
         this.note = null;
     }
 
-    Stitch nextAnchorStitch() {
-        return this.prev;
+    public void setPort(Stitch port) {
+        this.port = port;
+    }
+
+    //? todo: Is there no way to infer method virtually? Thats garbage.
+    Stitch nextPort() {
+        if (this instanceof ChainGroup) {
+            return ((ChainGroup)this).nextPort();
+        } else if (this instanceof StitchGroup) {
+            return ((StitchGroup)this).nextPort();
+        } else {
+            return this.prev;
+        }
     }
 
     // package private, so Pattern can instantiate
@@ -54,5 +65,19 @@ public class Stitch {
         }
         this.next = null;
         return this;
+    }
+
+    public Stitch peekAnchor() {
+        if (anchors == null) return null;
+        return anchors.get(anchors.size()-1);
+    }
+
+    public Stitch popAnchor() throws IllegalAccessException {
+        if (anchors == null) {
+            throw new IllegalAccessException("Stitch contains no anchors.");
+        }
+        Stitch st = peekAnchor();
+        anchors.remove(anchors.size()-1);
+        return st;
     }
 }

@@ -29,7 +29,7 @@ class ShellInstruction extends Instruction {
         if (sc.hasNextInt()) {
             ith = sc.nextInt();
         }
-        anchorStitch = sc.next();
+        targetStitch = sc.next();
     }
 
     @Override
