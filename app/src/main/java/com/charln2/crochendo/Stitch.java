@@ -20,13 +20,13 @@ public class Stitch {
         while (ith > 0) {
             do {
                 ret = ret.prev;
-                if (anchor == null)
+                if (ret == null)
                     throw new NoClassDefFoundError(String.format(
                             "Could not find port stitch named '%s' in row", target));
             } while (ret.name.equals("sk"));
             //todo: any more stitches that are ignored?
 
-            if (anchor.name.equals(target) || target.equals("")) {
+            if (ret.name.equals(target) || target.equals("")) {
                 ith--;
             }
         }

@@ -114,7 +114,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
     }
 
     @Test(expected = NoClassDefFoundError.class)
@@ -141,7 +141,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
         assertSame(6, p.hold.get("*"));
         Stitch check = p.rows.get(0).tail.prev;
         int i = 0;
@@ -166,7 +166,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
     }
 
     @Test
@@ -199,7 +199,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
 
     }
 
@@ -219,7 +219,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
     }
 
     @Test
@@ -239,7 +239,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
     }
 
     @Test
@@ -290,10 +290,4 @@ public class InstructionParsingUnitTest {
             System.out.println(sc.next());
         }
     }
-
-
-
-
-
-
 }
