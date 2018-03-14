@@ -41,13 +41,7 @@ public class Row {
         Stitch cur = ltr ? head : tail;
         while (cur != null) {
             if (!cur.name.equalsIgnoreCase("sk")) {
-                if (cur instanceof StitchGroup) {
-                    for (Stitch st : ((StitchGroup) cur).getGroupList(ltr)) {
-                        sb.append(String.format("%-5s|", st.toString()));
-                    }
-                } else {
-                    sb.append(String.format("%-5s|", cur.toString()));
-                }
+                sb.append(String.format("%-5s|", cur.toString()));
             }
             cur = ltr ? cur.next : cur.prev;
         }
@@ -66,19 +60,42 @@ public class Row {
         tail = tail.next;
     }
 
+    int getPadding() {
+        int count = 0;
+        Stitch cur = tail;
+        // go backwards until stitch with anchor reached
+        while (cur != null && cur.anchor == null) {
+             count--;
+            cur = cur.prev;
+        }
+
+        // if anchor found for prev, count remaining spaces for this row as padding
+        if (cur != null) {
+            cur = cur.anchor;
+            while (cur != null) {
+                count++;
+                cur = cur.prev;
+            }
+        }
+        return count;
+    }
+
     public Stitch pop() throws IllegalAccessException {
         if (tail == null) throw new IllegalAccessException("Row is empty");
 
-        Stitch hold = tail;
-        tail = tail.nextPort();
-        if (tail != null) {
-            tail.next = null;
-        }
+        Stitch ret = tail;
+        tail.next = tail.prev = null;
 
-        return hold;
+        if (head == tail) {
+            // 1 element remaining, delete.
+            head = tail = null;
+        } else {
+            tail.prev.next = null;
+        }
+        return ret;
     }
 
-    public Stitch peekLast() {
+    public Stitch peekTail() {
         return tail;
     }
 
@@ -92,19 +109,6 @@ public class Row {
         return head == null && tail == null;
     }
 
-    public int sizeExpanded() {
-        int ret = 0;
-        Stitch cur = head;
-        while (cur != null) {
-            if (cur instanceof StitchGroup) {
-                ret += ((StitchGroup) cur).size();
-            } else {
-                ret++;
-            }
-            cur = cur.next;
-        }
-        return ret;
-    }
     public int size() {
         Stitch st = head;
         int size = 0;

@@ -65,6 +65,13 @@ public class InstructionParsingUnitTest {
 //        p.executeInstructions();
     }
 
+    /**
+     * padding = 8
+     *      |     |     |     |     |     |     |     |dc
+     * sl st|ch   |ch   |ch   |ch   |ch   |ch   |ch   |ch   |ch   |ch   |ch
+     * sl st|ch-11
+     * @throws Exception
+     */
     @Test
     public void dc_4th_fr_hook() throws Exception {
         p.parseLine("ch 11, Row 1 (RS):");
@@ -76,12 +83,14 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.printRow(1));
+        String row = p.printRow(1);
+        assertEquals(sb.toString(), row);
     }
 
     @Test
     public void chain_group() throws Exception {
         p.parseLine("ch 11, Row 1 (RS):");
+        p.executeInstructions();
         p.parseLine(" Dc in 4th ch from hook (beginning ch counts as dc)\n");
         p.executeInstructions();
 
@@ -89,7 +98,7 @@ public class InstructionParsingUnitTest {
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
-        assertEquals(sb.toString(), p.toString());
+        assertEquals(sb.toString(), p.printRow(1));
     }
 
     @Test

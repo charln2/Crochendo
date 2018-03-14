@@ -17,8 +17,8 @@ import static android.content.ContentValues.TAG;
 
 
 public class Pattern {
-    private Stitch port;
-    private int size;
+    private Stitch x; // anchoring stitch: marks next port stitch for new stitch to be anchored to
+//    private int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
     private ArrayList<Instruction> processed = new ArrayList<>();
     HashMap<String, Integer> hold = new HashMap<>();
@@ -65,7 +65,7 @@ public class Pattern {
         Scanner sc = new Scanner(line);
         // commas note enclosed in parentheses or matching list of specific known delimiters
         sc.useDelimiter("(,(?![^()]*+\\)))|[:;.]");
-        //<stitch, times, in port, note>
+        //<stitch, times, in x, note>
 
         while (sc.hasNext()) {
             String rawInstruction = sc.next();
@@ -93,37 +93,21 @@ public class Pattern {
         }
     }
 
-    public Stitch peek() {
-        return getRow(-1).peekLast();
+    public Stitch getTail() {
+        return getRow(-1).tail;
     }
     public void add(Stitch st) {
         rows.get(rows.size() - 1).add(st);
-        size++;
+//        size++;
     }
 
     public void moveX(int ith, String anchorTarget) {
-        while (ith > 0) {
-            do {
-                port = port.nextPort();
-                if (port == null)
-                    throw new NoClassDefFoundError(String.format("Could not find stitch '%s' in anchoring row", anchorTarget));
-            } while (port.name.equals("sk")
-                    || port instanceof StitchGroup
-                    );
-
-            if (port.name.equals(anchorTarget) || anchorTarget.equals("")) {
-                ith--;
-            }
-        }
-    }
-
-    void incrementX() {
-        if (port == null) throw new IndexOutOfBoundsException("port is null");
+        x = x.nextPort(ith, anchorTarget);
     }
 
     public void startNewRow() {
         if (!rows.isEmpty()) {
-            port = rows.get(rows.size() - 1).tail;
+            x = rows.get(rows.size() - 1).tail;
         }
 
         boolean printDirection = rows.size() % 2 == 0; // even: ltr, odd: rtl
@@ -134,35 +118,34 @@ public class Pattern {
     public String toString() {
         StringBuilder out = new StringBuilder();
 
+        //todo: call row.toString() and row.toStringExpanded
+        // todo: implement (padding()) for Stitch object, print 1st row w/ padding
+        //todo: print rest of rows from 1..n
         for (int i = rows.size() - 1; i >= 0; i--) {
             out.append(rows.get(i).toString());
             // append padding, if row index odd
-            if (i > 0 && i % 2 == 1) {
-                Stitch padder = rows.get(i - 1).head;
-                int spaces = 0;
-                while (padder != null && padder.anchors == null) {
-                    spaces++;
-                    padder = padder.next;
-                }
-                for (int sp = 0; sp < spaces; sp++) {
-                    out.insert(0, ("     |"));
-                }
-            }
+//            if (i > 0 && i % 2 == 1) {
+//                Stitch padder = rows.get(i - 1).head;
+//                int spaces = 0;
+//                while (padder != null && padder.anchors == null) {
+//                    spaces++;
+//                    padder = padder.next;
+//                }
+//                for (int sp = 0; sp < spaces; sp++) {
+//                    out.insert(0, ("     |"));
+//                }
+//            }
             // get earliest anchored stitch of prev row
             // count spaces down to row start, exclusive
             // prepend that many "blank" padding spaces onto
-            out.append('\n');
+//            out.append('\n');
         }
         out.setLength(out.length() - 1);
         return out.toString();
     }
 
-    public void addAnchor(Stitch st) {
-        port.addAnchor(st);
-    }
-
-    public Stitch getPort() {
-        return port;
+    public Stitch getX() {
+        return x;
     }
 
     public Row getRow(int i) {
@@ -190,40 +173,24 @@ public class Pattern {
 
     String printRow(int n) {
         StringBuilder sb = new StringBuilder();
-        int padding = 0;
-        if (!getRow(n).isLtr()) {
-            Stitch cur = getRow(n).tail;
-            int hanging = 0;
-            while (cur != null && cur.port == null) {
-                cur = cur.prev;
-            }
-            if (cur != null) {
-                cur = cur.port.prev;
-                while (cur != null) {
-                    padding++;
-                    cur = cur.prev;
-                }
-            }
-            padding -= hanging;
-        }
         Row r1 = getRow(n);
-        Row r2 = (n-1 < 0) ? null : getRow(n-1);
-        if (r2 != null) {
-            if (r1.size() < r2.sizeExpanded()) {
+        if (n >= 1 && !r1.isLtr()) {
+            int padding = r1.getPadding();
+            if (padding >= 0) {
                 for(int i = 0; i < padding; i++) {
                     sb.append("     |");
                 }
             }
-        }
-        sb.append(getRow(n).toString());
-        if (r2 != null) {
-            sb.append('\n');
-            if (r1.size() > r2.sizeExpanded()) {
-                for (int i = 0; i < Math.abs(padding); i++) {
+            sb.append(r1.toString()).append('\n');
+            Row r2 = getRow(n-1);
+            if (padding < 0) {
+                for(int i = 0; i < Math.abs(padding); i++) {
                     sb.append("     |");
                 }
             }
-            sb.append(getRow(n-1).toStringExpanded());
+            sb.append(r2.toStringExpanded());
+        } else {
+            return r1.toString();
         }
         return sb.toString();
     }

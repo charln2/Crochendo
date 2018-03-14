@@ -10,7 +10,7 @@ import java.util.Scanner;
 public abstract class Instruction {
     String abbr = "MISSING ABBREV";
     String note = "";
-    int times = 1;
+    int repeatCount = 1;
     String targetStitch = null;
     int ith = 1;
 
@@ -27,8 +27,11 @@ public abstract class Instruction {
     }
 
     public void execute(Pattern p) {
-        for (int i = 0; i < times; i++) {
-            Stitch s = attach(p);
+        for (int i = 0; i < repeatCount; i++) {
+            Stitch s = attach(p, abbr);
+            if (targetStitch != null) {
+                p.moveX(ith, targetStitch);
+            }
             anchor(p, s);
         }
         if (note != null) {
@@ -37,8 +40,8 @@ public abstract class Instruction {
     }
 
     // move/anchor
-    protected Stitch attach(Pattern p) {
-        Stitch s = new Stitch(abbr);
+    protected Stitch attach(Pattern p, String stitchName) {
+        Stitch s = new Stitch(stitchName);
         // attach to pattern
         p.add(s);
         return s;
@@ -46,26 +49,24 @@ public abstract class Instruction {
 
     protected void anchor(Pattern p, Stitch st) {
         if (targetStitch != null) {
-            p.moveX(ith, targetStitch);
-            p.addAnchor(st);
-            st.setPort(p.getPort());
+            st.setAnchor(p.getX());
         }
     }
 
     private void executeSecondaryInstructions(Pattern p) {
         if (note.contains("(beginning ch counts as")) {
-            Stitch x = p.getPort();
+            Stitch x = p.getX();
             Row row = p.getRow(-2);
-            ChainGroup cg = new ChainGroup();
+            int numChains = 0;
             try {
-                while (row.peekLast() != x) {
+                while (row.peekTail() != x) {
                     row.pop();
-                    cg.add(1);
+                    numChains++;
                 }
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            p.getRow(-1).prepend(cg);
+            p.getRow(-1).prepend(new ChainGroup(numChains));
         }
     }
 }

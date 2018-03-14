@@ -22,7 +22,7 @@ class DoubleCrochetInstruction extends Instruction {
         rawInstruction = rawInstruction.replaceAll("first", "1");
         Scanner sc = new Scanner(rawInstruction);
         if (sc.hasNextInt()) {
-            times = sc.nextInt();
+            repeatCount = sc.nextInt();
         }
         sc.skip(abbr);
         if (sc.hasNextInt()) {
@@ -33,7 +33,7 @@ class DoubleCrochetInstruction extends Instruction {
             }
         } else if (sc.hasNext() && sc.next().equals("next")) {
 //            sc.skip("next");
-            times = sc.nextInt();
+            repeatCount = sc.nextInt();
             targetStitch = sc.next();
         }
     }

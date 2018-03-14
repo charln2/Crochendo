@@ -1,7 +1,6 @@
 package com.charln2.crochendo.Instructions;
 
 import com.charln2.crochendo.Pattern;
-import com.charln2.crochendo.StitchGroup;
 import com.charln2.crochendo.Stitch;
 
 import java.util.ArrayList;
@@ -33,17 +32,18 @@ class ShellInstruction extends Instruction {
     }
 
     @Override
-    protected Stitch attach(Pattern p) {
-        StitchGroup shell = new StitchGroup();
+    public void execute(Pattern p) {
+        if (targetStitch != null) {
+            p.moveX(ith, targetStitch);
+        }
         for (int i = 0; i < stitchNames.size(); i++) {
-            String stitchName = stitchNames.get(i);
+            String name = stitchNames.get(i);
             int count = stitchCounts.get(i);
-            for (int j = 0; j < count; j++) {
-                shell.add(new Stitch(stitchName));
+            for(int j = 0; j < count; j++) {
+                Stitch st = attach(p, name);
+                anchor(p, st);
             }
         }
-        p.add(shell);
-        return shell;
     }
 
     //!assumption: sl st or any 2+ word stitches not in shell; always 2 args

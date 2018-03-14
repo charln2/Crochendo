@@ -25,7 +25,7 @@ class SkipInstruction extends Instruction {
         Scanner sc = new Scanner(rawInstruction);
         sc.skip("sk"); // fixed. Accidentally parsed "sk" as targetStitch.
         if (sc.hasNextInt()) {
-            times = sc.nextInt();
+            repeatCount = sc.nextInt();
         }
         if (sc.hasNext()) {
             targetStitch = sc.next();
