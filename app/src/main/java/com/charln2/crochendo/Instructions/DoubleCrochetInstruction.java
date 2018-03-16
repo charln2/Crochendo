@@ -33,7 +33,9 @@ class DoubleCrochetInstruction extends Instruction {
             }
         } else if (sc.hasNext() && sc.next().equals("next")) {
 //            sc.skip("next");
-            repeatCount = sc.nextInt();
+            if (sc.hasNextInt()) {
+                repeatCount = sc.nextInt();
+            }
             targetStitch = sc.next();
         }
     }

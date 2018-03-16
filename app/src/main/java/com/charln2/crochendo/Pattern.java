@@ -13,10 +13,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
-import static android.content.ContentValues.TAG;
-
-
 public class Pattern {
+    public static final String TAG = Pattern.class.getName();
     private Stitch x; // anchoring stitch: marks next port stitch for new stitch to be anchored to
 //    private int size;
     private Queue<Instruction> qInstructions = new LinkedList<>();
@@ -58,6 +56,19 @@ public class Pattern {
 
         executeInstructions();
         Log.d(TAG, "parsePattern: " + this.toString());
+    }
+
+    void parsePattern(String rawPattern) throws InstantiationException {
+        Scanner sc = new Scanner(rawPattern);
+        String line;
+        while (sc.hasNextLine()) {
+            line = sc.nextLine();
+//            Log.d(TAG, "parsePattern: " + line);
+            parseLine(line);
+        }
+
+        executeInstructions();
+//        Log.d(TAG, "parsePattern: " + this.toString());
     }
 
     void parseLine(String line) throws InstantiationException {

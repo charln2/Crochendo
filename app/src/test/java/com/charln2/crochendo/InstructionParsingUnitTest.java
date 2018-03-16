@@ -247,21 +247,38 @@ public class InstructionParsingUnitTest {
 
     @Test
     public void row2() throws Exception {
-        p.parseLine("Row 2\n" +
-                " Ch 3 (counts as dc here and throughout)\n" +
-                " sk first dc\n" +
-                " dc in next dc\n" +
-                " *sk next 2 dc\n" +
-                " dc in next dc\n" +
-                " ch 1\n" +
-                " (dc, ch 1, dc) in next ch-1 sp\n" +
-                " ch 1\n" +
-                " dc in next dc\n" +
-                " sk next 2 dc\n" +
-                " dc in next 2 dc\n" +
-                " repeat from * across\n" +
-                " turn");
-        p.executeInstructions();
+        p.parsePattern("Ch 32\n" +
+                        "\n" +
+                        "Row 1 (RS)\n" +
+                        " Dc in 4th ch from hook (beginning ch counts as dc)\n" +
+                        " *sk next 2 ch\n" +
+                        " (3 dc, ch 1, 3 dc) in next ch\n" +
+                        " sk next 2 ch\n" +
+                        " dc in next 2 ch\n" +
+                        " repeat from * across\n" +
+                        " turn—4 pattern repeats\n" +
+                        "\n" +
+                        "Row 2\n" +
+                        " Ch 3 (counts as dc here and throughout)\n" +
+                        " sk first dc\n" +
+                        " dc in next dc\n" +
+                        " *sk next 2 dc\n" +
+                        " dc in next dc\n" +
+                        " ch 1\n" +
+                        " (dc, ch 1, dc) in next ch-1 sp\n" +
+                        " ch 1\n" +
+                        " dc in next dc\n" +
+                        " sk next 2 dc\n" +
+                        " dc in next 2 dc\n" +
+                        " repeat from * across\n" +
+                        " turn"
+        );
+        String[] r2 = {"sl st"};
+        String[] r1 = {"sl st"};
+        StringBuilder sb = new StringBuilder();
+        sb.append(printExpected(r2)).append('\n').append(printExpected(r1));
+        String actual = p.printRow(2);
+        assertEquals(sb.toString(), actual);
     }
 
     // --- Small Experiments ---
@@ -280,11 +297,11 @@ public class InstructionParsingUnitTest {
     @Test
     public void scan() throws Exception {
         String str = "Ch 32.\n" +
-                "RowInstruction 1 (RS): Dc in 4th ch from hook (beginning ch counts as dc), *sk next 2 ch, (3 dc, ch 1, 3 dc) in next ch, sk next 2 ch, dc in next 2 ch; repeat from * across, turn—4 pattern repeats.\n" +
-                "RowInstruction 2: Ch 3 (counts as dc here and throughout), sk first dc, dc in next dc, *sk next 2 dc, dc in next dc, ch 1, (dc, ch 1, dc) in next ch-1 sp, ch 1, dc in next dc, sk next 2 dc, dc in next 2 dc; repeat from * across, turn.\n" +
-                "RowInstruction 3: Ch 3, sk first dc, dc in next dc, *sk next ch-1 sp, (2 dc, ch 3, 2 dc) in next ch-1 sp, sk next ch-1 sp, sk next dc, dc in next 2 dc; repeat from * across, turn.\n" +
+                "Row 1 (RS): Dc in 4th ch from hook (beginning ch counts as dc), *sk next 2 ch, (3 dc, ch 1, 3 dc) in next ch, sk next 2 ch, dc in next 2 ch; repeat from * across, turn—4 pattern repeats.\n" +
+                "Row 2: Ch 3 (counts as dc here and throughout), sk first dc, dc in next dc, *sk next 2 dc, dc in next dc, ch 1, (dc, ch 1, dc) in next ch-1 sp, ch 1, dc in next dc, sk next 2 dc, dc in next 2 dc; repeat from * across, turn.\n" +
+                "Row 3: Ch 3, sk first dc, dc in next dc, *sk next ch-1 sp, (2 dc, ch 3, 2 dc) in next ch-1 sp, sk next ch-1 sp, sk next dc, dc in next 2 dc; repeat from * across, turn.\n" +
                 "                                                                 \n" +
-                "RowInstruction 4: Ch 3, sk first dc, dc in next dc, *(3 dc, ch 1, 3 dc) in next ch-3 sp, sk next 2 dc, dc in next 2 dc; repeat from * across, turn.\n" +
+                "Row 4: Ch 3, sk first dc, dc in next dc, *(3 dc, ch 1, 3 dc) in next ch-3 sp, sk next 2 dc, dc in next 2 dc; repeat from * across, turn.\n" +
                 "Repeat Rows 2–4 until piece measures about 58″/147.5cm. Do not fasten off.";
         Scanner sc = new Scanner(str);
         // commas note enclosed in parentheses or matching list of specific known delimiters

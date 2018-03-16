@@ -7,6 +7,7 @@ public class Row {
     Stitch head, tail;
     private boolean ltr;
     private ArrayList<ArrayList<Stitch>> stitchGroups;
+    private static final String stFmt = "%-5s|";
 
 
     Row() {
@@ -26,8 +27,6 @@ public class Row {
 
     @Override
     public String toString() {
-//        return toStringCompressed();
-//        return "row";
         return toStringCompressed();
     }
 
@@ -36,7 +35,6 @@ public class Row {
         ArrayList<String> workingList = new ArrayList<>();
         Stitch cur = head;
         while (cur != null) {
-            //todo: handle stitchgroups and chaingroups
             if (cur.consecutiveChains(cur.next) || cur.sameAnchor(cur.next)) {
                 cur = processPrintGroup(cur, workingList);
             } else {
@@ -47,7 +45,7 @@ public class Row {
         StringBuilder ret = new StringBuilder();
         for (int i = 0, j = workingList.size()-1; i < workingList.size(); i++, j--) {
             String s = (ltr) ? workingList.get(i) : workingList.get(j);
-            ret.append(String.format("%-5s|", s));
+            ret.append(String.format(stFmt, s));
         }
 
         if (!ltr) {
@@ -92,7 +90,7 @@ public class Row {
         Stitch cur = ltr ? head : tail;
         while (cur != null) {
             if (!cur.name.equalsIgnoreCase("sk")) {
-                sb.append(String.format("%-5s|", cur.toString()));
+                sb.append(String.format(stFmt, cur.toString()));
             }
             cur = ltr ? cur.next : cur.prev;
         }

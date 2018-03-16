@@ -54,15 +54,15 @@ public class InstructionFactory {
 
     private static HashMap<String, Instruction> stitchInstructions = new HashMap<String, Instruction>() {{
         put("ch", new ChainInstruction());
-        put("row", new RowInstruction());
         put("dc", new DoubleCrochetInstruction());
         put("sk", new SkipInstruction());
         put("sk", new SkipInstruction());
+        put("row", new RowInstruction());
         put("sl st", new SlipStitchInstruction());
-        put("turn", new TurnInstruction());
         put("repeat", new RepeatInstruction());
     }};
     private static HashMap<String, Instruction> specialCaseInstructions = new HashMap<String, Instruction>() {{
+        put("turn", new TurnInstruction());
         put("*", new HoldInstruction());
         put("(", new ShellInstruction());
         //todo: chain group
