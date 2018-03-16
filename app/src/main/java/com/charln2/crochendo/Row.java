@@ -1,73 +1,90 @@
 package com.charln2.crochendo;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Row {
-    Stitch head, tail = null;
+    Stitch head, tail;
+    private boolean ltr;
+    private ArrayList<ArrayList<Stitch>> stitchGroups;
 
 
-    private boolean ltr = true;
-
-    public Row() {
+    Row() {
+        ltr = true;
+        head = tail = null;
+        stitchGroups = new ArrayList<>();
     }
 
     Row(boolean ltr) {
+        this();
         this.ltr = ltr;
     }
 
-    public boolean isLtr() {
+    boolean isLtr() {
         return ltr;
     }
 
     @Override
     public String toString() {
+//        return toStringCompressed();
+//        return "row";
+        return toStringCompressed();
+    }
+
+    private String toStringCompressed() {
         if (isEmpty()) return "";
-
-        StringBuilder sb = new StringBuilder();
-
-        Stitch cur = (ltr) ? head : tail;
-        Stitch lastAncor = null;
+        ArrayList<String> workingList = new ArrayList<>();
+        Stitch cur = head;
         while (cur != null) {
             //todo: handle stitchgroups and chaingroups
-            if (matchingAnchors(cur)) {
-                sb.append(String.format("%-5s|", "^^^"));
-                while (matchingAnchors(cur)) {
-                    cur = ltr ? cur.next : cur.prev;
-                }
-                cur = ltr ? cur.next : cur.prev;
-                continue;
+            if (cur.consecutiveChains(cur.next) || cur.sameAnchor(cur.next)) {
+                cur = processPrintGroup(cur, workingList);
+            } else {
+                workingList.add(cur.toString());
+                cur = cur.next;
             }
-            if (cur.name.equals("ch")) {
-                Stitch other = ltr ? cur.next : cur.prev;
-                int count = 1;
-                while (other != null && other.name.equals("ch")) {
-                    count++;
-                    cur = ltr ? cur.next : cur.prev;
-                    other = ltr ? cur.next : cur.prev;
-                }
-                if (count > 1) {
-                    sb.append(String.format("%-5s|", "ch-" + count));
-                    cur = ltr ? cur.next : cur.prev;
-                    continue;
-                }
-            }
-
-            sb.append(String.format("%-5s|", cur.toString()));
-            cur = ltr ? cur.next : cur.prev;
+        }
+        StringBuilder ret = new StringBuilder();
+        for (int i = 0, j = workingList.size()-1; i < workingList.size(); i++, j--) {
+            String s = (ltr) ? workingList.get(i) : workingList.get(j);
+            ret.append(String.format("%-5s|", s));
         }
 
-        sb.setLength(sb.length() - 1); // trim last "|"
+        if (!ltr) {
+            for (ArrayList<Stitch> grp : stitchGroups) {
+                Collections.reverse(grp);
+            }
+        }
 
-        return sb.toString();
+        ret.setLength(ret.length() - 1); // trim last "|"
+        return ret.toString();
     }
 
-    boolean matchingAnchors(Stitch st) {
-        if (st == null) return false;
-        Stitch other = ltr ? st.next : st.prev;
-        return other != null
-                && other.anchor != null
-                && st.anchor == other.anchor;
+    private Stitch processPrintGroup(Stitch cur, ArrayList<String> workingList) {
+        boolean isAllChains = true;
+        stitchGroups.add(new ArrayList<Stitch>());
+        ArrayList<Stitch> group = stitchGroups.get(stitchGroups.size()-1);
+
+        do {
+            if (!cur.toString().equalsIgnoreCase("ch")) isAllChains = false;
+            group.add(cur);
+            cur = cur.next;
+        } while (cur != null &&
+                (cur.toString().equals("ch") || cur.sameAnchor(cur.prev)));
+
+        if (isAllChains) {
+            int iLast = stitchGroups.size()-1;
+            workingList.add("ch-"+stitchGroups.get(iLast).size());
+            stitchGroups.remove(iLast);
+        } else {
+
+            workingList.add("^"+ stitchGroups.size() +"^"); // ith group
+        }
+
+        return cur;
     }
 
-    public String toStringExpanded() {
+    String toStringExpanded() {
         if (isEmpty()) return "";
 
         StringBuilder sb = new StringBuilder();

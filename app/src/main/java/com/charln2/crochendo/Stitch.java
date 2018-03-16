@@ -53,4 +53,15 @@ public class Stitch {
         }
         return i;
     }
+
+    boolean sameAnchor(Stitch oth) {
+        return oth != null
+                && oth.anchor != null
+                && anchor != null
+                && anchor == oth.anchor;
+    }
+
+    boolean consecutiveChains(Stitch oth) {
+        return oth != null && name.equals("ch") && oth.name.equals("ch");
+    }
 }
