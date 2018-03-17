@@ -113,6 +113,7 @@ public class Pattern {
     }
 
     public void moveX(int ith, String anchorTarget) {
+        anchorTarget = anchorTarget.replaceAll("-1", "");
         x = x.nextPort(ith, anchorTarget);
     }
 

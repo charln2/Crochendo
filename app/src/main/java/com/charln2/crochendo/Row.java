@@ -31,6 +31,7 @@ public class Row {
     }
 
     private String toStringCompressed() {
+        stitchGroups.clear();
         if (isEmpty()) return "";
         ArrayList<String> workingList = new ArrayList<>();
         Stitch cur = head;
@@ -59,10 +60,10 @@ public class Row {
     }
 
     private Stitch processPrintGroup(Stitch cur, ArrayList<String> workingList) {
+
         boolean isAllChains = true;
         stitchGroups.add(new ArrayList<Stitch>());
         ArrayList<Stitch> group = stitchGroups.get(stitchGroups.size()-1);
-
         do {
             if (!cur.toString().equalsIgnoreCase("ch")) isAllChains = false;
             group.add(cur);
@@ -75,8 +76,8 @@ public class Row {
             workingList.add("ch-"+stitchGroups.get(iLast).size());
             stitchGroups.remove(iLast);
         } else {
-
-            workingList.add("^"+ stitchGroups.size() +"^"); // ith group
+            int iLast = stitchGroups.size()-1;
+            workingList.add("^"+ stitchGroups.get(iLast).size() +"^"); // ith group
         }
 
         return cur;

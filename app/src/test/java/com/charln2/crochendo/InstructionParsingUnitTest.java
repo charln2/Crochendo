@@ -264,14 +264,14 @@ public class InstructionParsingUnitTest {
                         " dc in next dc\n" +
                         " *sk next 2 dc\n" +
                         " dc in next dc\n" +
-                        " ch 1\n" +
-                        " (dc, ch 1, dc) in next ch-1 sp\n" +
-                        " ch 1\n" +
-                        " dc in next dc\n" +
-                        " sk next 2 dc\n" +
-                        " dc in next 2 dc\n" +
-                        " repeat from * across\n" +
-                        " turn"
+                        " ch 1\n"
+//                        " (dc, ch 1, dc) in next ch-1 sp\n" +
+//                        " ch 1\n" +
+//                        " dc in next dc\n" +
+//                        " sk next 2 dc\n" +
+//                        " dc in next 2 dc\n" +
+//                        " repeat from * across\n" +
+//                        " turn"
         );
         String[] r2 = {"sl st"};
         String[] r1 = {"sl st"};
