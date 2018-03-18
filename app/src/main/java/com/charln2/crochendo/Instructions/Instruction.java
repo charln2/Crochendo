@@ -22,7 +22,7 @@ public abstract class Instruction {
         // put (...) in note
         String parens = sc.findInLine("\\(.*\\)");
         if (parens != null) {
-            note = parens;
+            note = parens.replaceAll("[()]", "");
         }
     }
 
@@ -54,7 +54,9 @@ public abstract class Instruction {
     }
 
     private void executeSecondaryInstructions(Pattern p) {
-        if (note.contains("(beginning ch counts as")) {
+        if (note.contains("beginning ch counts as")) {
+            Scanner sc = new Scanner(note);
+            String alias = sc.findInLine("(?<=counts as ).*");
             Stitch x = p.getX();
             Row row = p.getRow(-2);
             int numChains = 0;
@@ -66,7 +68,10 @@ public abstract class Instruction {
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-            p.getRow(-1).prepend(new ChainGroup(numChains));
+            ChainGroup cg = new ChainGroup(numChains);
+            if (!alias.isEmpty())
+            cg.addAlias(alias);
+            p.getRow(-1).prepend(cg);
         }
     }
 }

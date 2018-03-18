@@ -165,7 +165,7 @@ public class InstructionParsingUnitTest {
         p.executeInstructions();
 
 
-        String[] r1 = {"","","","","","^1^","sk","sk","dc","ch-3"};
+        String[] r1 = {"","","","","","^7^","sk","sk","dc","ch-3"};
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
@@ -198,7 +198,7 @@ public class InstructionParsingUnitTest {
         p.parseLine("dc in next 2 ch");
         p.executeInstructions();
 
-        String[] r1 = {"","dc","dc","sk","sk","^1^","sk","sk","dc","ch-3"};
+        String[] r1 = {"","dc","dc","sk","sk","^7^","sk","sk","dc","ch-3"};
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
@@ -218,7 +218,7 @@ public class InstructionParsingUnitTest {
         p.parseLine("turn");
         p.executeInstructions();
 
-        String[] r1 = {"turn","dc","dc","sk","sk","^1^","sk","sk","dc","ch-3"};
+        String[] r1 = {"turn","dc","dc","sk","sk","^7^","sk","sk","dc","ch-3"};
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
@@ -238,7 +238,7 @@ public class InstructionParsingUnitTest {
         p.parseLine("turn");
         p.executeInstructions();
 
-        String[] r1 = {"turn","dc","dc","sk","sk","^4^","sk","sk","dc","dc","sk","sk","^3^","sk","sk","dc","dc","sk","sk","^2^","sk","sk","dc","dc","sk","sk","^1^","sk","sk","dc","ch-3"};
+        String[] r1 = {"turn","dc","dc","sk","sk","^7^","sk","sk","dc","dc","sk","sk","^7^","sk","sk","dc","dc","sk","sk","^7^","sk","sk","dc","dc","sk","sk","^7^","sk","sk","dc","ch-3"};
         String[] r0 = {"sl st", "ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch","ch"};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r1)).append('\n').append(printExpected(r0));
@@ -273,8 +273,8 @@ public class InstructionParsingUnitTest {
                         + " repeat from * across\n"
 //                        + " turn"
         );
-        String[] r2 = {"sl st"};
-        String[] r1 = {"sl st"};
+        String[] r2 = {"ch-3 |sk   |dc   |sk   |sk   |^2^  |^4^  |dc   |sk   |sk   |dc   |dc   |sk   |sk   |^2^  |^4^  |dc   |sk   |sk   |dc   |dc   |sk   |sk   |^2^  |^4^  |dc   |sk   |sk   |dc   |dc   |sk   |sk   |^2^  |^4^  |dc   |sk   |sk   |dc   |dc   "};
+        String[] r1 = {"turn |dc   |dc   |dc   |dc   |dc   |ch   |dc   |dc   |dc   |dc   |dc   |dc   |dc   |dc   |ch   |dc   |dc   |dc   |dc   |dc   |dc   |dc   |dc   |ch   |dc   |dc   |dc   |dc   |dc   |dc   |dc   |dc   |ch   |dc   |dc   |dc   |dc   |ch-3 "};
         StringBuilder sb = new StringBuilder();
         sb.append(printExpected(r2)).append('\n').append(printExpected(r1));
         String actual = p.printRow(2);

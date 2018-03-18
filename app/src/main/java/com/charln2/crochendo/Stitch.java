@@ -1,14 +1,18 @@
 package com.charln2.crochendo;
 
+import java.util.HashSet;
+
 public class Stitch {
     String name;
     Stitch prev, next, anchor;
     String note;
+    private HashSet<String> aliasSet;
 
     public Stitch(String name) {
         this.name = name;
         this.prev = this.next = this.anchor = null;
         this.note = null;
+        this.aliasSet = null;
     }
 
     public void setAnchor(Stitch anchor) {
@@ -26,7 +30,8 @@ public class Stitch {
             } while (ret.name.equals("sk"));
             //todo: any more stitches that are ignored?
 
-            if (ret.name.equals(target) || target.equals("")) {
+            if (target.equals("") || ret.name.equals(target)
+                    || (ret.aliasSet != null && ret.aliasSet.contains(target))) {
                 ith--;
             }
         }
@@ -62,6 +67,16 @@ public class Stitch {
     }
 
     boolean consecutiveChains(Stitch oth) {
-        return oth != null && name.equals("ch") && oth.name.equals("ch");
+        if (name.equals("sl st")) {
+            return false;
+        }
+        return name.equals("ch") || oth != null && oth.name.equals("ch");
+    }
+
+    public void addAlias(String s) {
+        if (aliasSet == null) {
+            aliasSet = new HashSet<>();
+        }
+        aliasSet.add(s);
     }
 }

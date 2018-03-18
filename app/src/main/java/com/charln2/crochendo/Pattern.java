@@ -176,6 +176,7 @@ public class Pattern {
     String printRow(int n) {
         StringBuilder sb = new StringBuilder();
         Row r1 = getRow(n);
+        Row r2 = getRow(n-1);
         if (n >= 1 && !r1.isLtr()) {
             int padding = r1.getPadding();
             if (padding >= 0) {
@@ -184,7 +185,6 @@ public class Pattern {
                 }
             }
             sb.append(r1.toString()).append('\n');
-            Row r2 = getRow(n-1);
             if (padding < 0) {
                 for(int i = 0; i < Math.abs(padding); i++) {
                     sb.append("     |");
@@ -192,7 +192,7 @@ public class Pattern {
             }
             sb.append(r2.toStringExpanded());
         } else {
-            return r1.toString();
+            sb.append(r1).append('\n').append(r2.toStringExpanded());
         }
         return sb.toString();
     }
