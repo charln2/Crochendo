@@ -1,26 +1,26 @@
 # Crochendo
-Crochendo is a crafter's pocket-assistant that parses, analyzes, and displays crochet stitch-patterns in a responsive and engaging way. 
-[note: Development is still in its initial stages of deployment. Work is currently being done to parse a scarf into simple text output. Features for displaying graphics, accommodating for "round" patterns, storing patterns in a SQLite database, querying the web for free patterns, and general aesthetic will be added in further implementations]
+Crochendo is an educational tool that parses raw-text instructions, provides guidance, and tracks progress for the user within the context of stitching crochet patterns.
+
+Any scarf viewed stitch-by-stitch can be seen as a list of instructions executed in-sequence until an end condition is reached. Sound familiar? Broken down, crochet and knitting patterns strongly resemble low-level code instructions. These instructions can be interpreted and transformed in a way that caters to the needs of a user, providing the necessary explanations at the right time with a tap or swipe of a finger.
+[note: Development is still in its initial stages. Work is currently being done to parse a scarf into simple text output. Features for displaying graphics, accommodating for "round" patterns, storing patterns in a SQLite database, querying the web for free patterns, and general aesthetic will be added in further implementations]
 
 ## Problem Statement:
 Crochet in itself is pretty simple, but disheartened newcomers of the craft sometimes give up in frustration. Their stitch-count comes up short or an unfamiliar word discourages them. Even seasoned hobbyists can lose their place when revisiting a previous work. As confusion mounts, interest fades.
 
 ## Solution: 
-The purpose of Crochendo is to bridge this gap over this trough of confusion by engaging the user in a detailed, step-by-step interface which provides immediate feedback on their progress as they work.
-Rationale:
-Any scarf viewed stitch-by-stitch can be seen as a list of instructions executed in-sequence until an end condition is reached. Sound familiar? Broken down, crochet and knitting patterns strongly resemble low-level code instructions. These instructions can be interpreted and transformed in a way that caters to the needs of a user, providing the necessary explanations at the right time with a tap or swipe of a finger.
+The purpose of Crochendo is to bridge this gap of frustration by engaging the user in a detailed, step-by-step interface providing immediate feedback on their progress as they work.
 
 ## Architecture
 ### Overview/ Tools
 | Feature                     | Implementation                                                  |
 | --------------------------- |-----------------------------------------------------------------|
 | Platform                    | Android(Java/XML)                                               |
-| Testing                     | Junit                                                           |
-| Data Acquisition & Storage  | jsoup, PDFBox [in progress], SQLite [in progress]               |
+| Testing                     | JUnit, Espresso                                                 |
+| Data Acquisition & Storage  | jsoup, PDFBox, SQLite                                           |
 | Source Control              | Git/GitHub                                                      |
 
 ### Code Organization:
-The architecture takes an Object-Oriented approach. A UML class diagram can be seen below. Each object's operations attempt to maximize cohesion and minimize coupling. Pattern objects (comprised of Rows of Stitch objects) are created by invoking a queue of Instruction objects (parsed and constructed via the Factory Method Design Pattern). Each Instruction object overrides methods to parse and execute raw instructions. After each Instruction is executed, they are placed into a list of processed Instructions for potential reuse. Organizing the code for constructing a Pattern object in this linear manner mirrors closely to how crochet patterns are constructed by-hand in the real world.
+Object-Oriented approach (UML class diagram shown below). Each object's operations attempt to maximize cohesion and minimize coupling. Pattern objects (comprised of Rows of Stitch objects) are created by invoking a queue of Instruction objects (parsed and constructed via the Factory Method Design Pattern). Each Instruction object overrides methods to parse and execute raw-text instructions. After each Instruction is executed, they are placed into a list of processed Instructions for potential reuse. Organizing the code for constructing a Pattern object in this linear manner mirrors closely to how crochet patterns are constructed by-hand in the real world.
  
 ![Crochendo UML Class Diagram](https://github.com/charln2/Crochendo/blob/master/Crochendo_UML.png "Crochendo UML Class Diagram")
 ## Approach
@@ -30,7 +30,7 @@ Due to the loose, sometimes whimsical style of human-written yarn instructions, 
 Tests accounting for graphics, "round" patterns, advance data storage, or querying the web were not addressed in the initial set of test cases, though light experimentation was done with graphics to assess feasibility.
 
 ## Implementation Details/ Design Decisions 
-The majority of design decisions placed emphasis on usability and maintainability.
+The majority of design decisions placed emphasis on usability and maintainability. AS patterns usually involve repeating groups of instructions, special attention was put into emulating this flexibility.
 
 ### Row Objects
 Since stitch counts can change on a row-by-row basis, causing alignment of stitches to their anchors to shift, rows were implemented to optimize printing. Along with a "toString()" override for Row objects, Rows also implement a "toStringExpanded()" method that compresses any grouped stitches so that they align with their anchoring stitches on the row below when worked upon.
